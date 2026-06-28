@@ -18,6 +18,29 @@
 }
 
 .preview-zone .second-page .exercise-list {
-  transform: scaleY(0.96);
-  transform-origin: top center;
+  transform: none;
+}
+
+.preview-zone .second-page .exercise-list:has(.exam-exercise:nth-child(1):last-child) .exam-exercise {
+  height: 930px !important;
+}
+
+.preview-zone .second-page .exercise-list:has(.exam-exercise:nth-child(2):last-child) .exam-exercise {
+  height: 455px !important;
+}
+
+.preview-zone .second-page .exercise-list:has(.exam-exercise:nth-child(3):last-child) .exam-exercise {
+  height: 292px !important;
+}
+
+.preview-zone .second-page .exercise-list:has(.exam-exercise:nth-child(4):last-child) .exam-exercise {
+  height: 215px !important;
+}
+
+.preview-zone .second-page .exercise-list:has(.exam-exercise:nth-child(5):last-child) .exam-exercise {
+  height: 166px !important;
+}
+
+.preview-zone .second-page .exercise-list:has(.exam-exercise:nth-child(6):last-child) .exam-exercise {
+  height: 135px !important;
 }
