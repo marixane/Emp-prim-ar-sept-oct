@@ -3,9 +3,9 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
 const DEFAULT_EXERCISES = [
-  { id: 'ex1', title: 'Exercice 1', points: '6 Pts', image: null, offsetY: 0 },
-  { id: 'ex2', title: 'Exercice 2', points: '- Pts', image: null, offsetY: 0 },
-  { id: 'ex3', title: 'Exercice 3', points: '- Pts', image: null, offsetY: 0 },
+  { id: 'ex1', title: 'Exercice 1', points: '6 Pts', image: null, size: 80 },
+  { id: 'ex2', title: 'Exercice 2', points: '- Pts', image: null, size: 0 },
+  { id: 'ex3', title: 'Exercice 3', points: '- Pts', image: null, size: 0 },
 ];
 
 const clamp = (value, min, max) => Math.min(Math.max(Number(value), min), max);
@@ -26,10 +26,24 @@ function App() {
     );
   };
 
-  const updateOffset = (id, value) => {
-    const safeValue = clamp(value, 0, 60);
-    updateExercise(id, 'offsetY', safeValue);
+  const updateSize = (id, value, index) => {
+    const max = index === 0 ? 220 : 120;
+    updateExercise(id, 'size', clamp(value, 0, max));
   };
+
+  const getExerciseHeights = () => {
+    const totalHeight = 986;
+    const minSmallHeight = 150;
+    const firstHeight = 350 + exercises[0].size;
+    const remaining = totalHeight - firstHeight;
+    const balance = exercises[1].size - exercises[2].size;
+    const secondHeight = clamp(Math.round(remaining / 2 + balance), minSmallHeight, remaining - minSmallHeight);
+    const thirdHeight = remaining - secondHeight;
+
+    return [firstHeight, secondHeight, thirdHeight];
+  };
+
+  const exerciseHeights = getExerciseHeights();
 
   const handleExerciseImage = (id, file) => {
     if (!file || !file.type.startsWith('image/')) return;
@@ -71,7 +85,7 @@ function App() {
         <p className="eyebrow">A4 Exam Maker</p>
         <h1>Créer une feuille A4 avec entête fixe</h1>
         <p className="intro">
-          Les photos restent dans leur cadre. Tu peux descendre Exercice 2 et Exercice 3 sans sortir de la page.
+          Ajuste la hauteur des exercices. Le système garde les blocs collés et limite le total dans la page A4.
         </p>
 
         <div className="form-group">
@@ -120,19 +134,17 @@ function App() {
               </div>
             </div>
 
-            {index > 0 && (
-              <div className="form-group">
-                <label>Position verticale de {exercise.title}</label>
-                <input
-                  type="range"
-                  min="0"
-                  max="60"
-                  value={exercise.offsetY}
-                  onChange={(e) => updateOffset(exercise.id, e.target.value)}
-                />
-                <small>{exercise.offsetY}px vers le bas</small>
-              </div>
-            )}
+            <div className="form-group">
+              <label>Hauteur de {exercise.title}</label>
+              <input
+                type="range"
+                min="0"
+                max={index === 0 ? '220' : '120'}
+                value={exercise.size}
+                onChange={(e) => updateSize(exercise.id, e.target.value, index)}
+              />
+              <small>Hauteur actuelle : {exerciseHeights[index]} px</small>
+            </div>
 
             <label>Photo pour {exercise.title}</label>
             <input
@@ -188,7 +200,7 @@ function App() {
               <section
                 className={`exam-exercise ex-${index + 1}`}
                 key={exercise.id}
-                style={{ marginTop: index > 0 ? `${exercise.offsetY}px` : '0px' }}
+                style={{ height: `${exerciseHeights[index]}px` }}
               >
                 <div className="exercise-title">
                   {exercise.title} : * ( {exercise.points} ) *
