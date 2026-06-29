@@ -51,7 +51,7 @@ function ensureDateControls() {
   if (!document.querySelector('.page-date-control')) {
     var wrap = document.createElement('label');
     wrap.className = 'page-date-control on';
-    wrap.title = 'Cliquer sur le cadre pour afficher/masquer la date. Cliquer sur le calendrier pour choisir la date.';
+    wrap.title = 'Cliquer pour afficher/masquer la date. Choisir une date avec le calendrier.';
 
     var title = document.createElement('span');
     title.className = 'page-date-title';
@@ -61,19 +61,14 @@ function ensureDateControls() {
     input.type = 'date';
     input.className = 'page-date-input';
     input.value = window.__pageDateValue;
-    input.addEventListener('click', function (event) {
-      event.stopPropagation();
-      window.__showPageDate = true;
-      syncPageDates();
-    });
+
     input.addEventListener('change', function () {
       window.__pageDateValue = input.value || new Date().toISOString().slice(0, 10);
       window.__showPageDate = true;
       syncPageDates();
     });
 
-    wrap.addEventListener('click', function (event) {
-      if (event.target === input) return;
+    wrap.addEventListener('click', function () {
       window.__showPageDate = !window.__showPageDate;
       syncPageDates();
     });
