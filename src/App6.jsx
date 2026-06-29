@@ -75,6 +75,7 @@ export default function App6() {
   const fileRefs = useRef({});
 
   const active = pages.map((p, i) => ({ p, i })).filter(({ p, i }) => i === 0 || p.length).map(({ i }) => i);
+  const countPages = pages.map((p, i) => ({ p, i })).filter(({ i }) => i <= 1 || visibleCount(pages[i - 1]) > 0);
   const all = active.flatMap((i) => pages[i].filter((e) => !e.blank).map((e, j) => ({ e, page: i, index: pages[i].findIndex((item) => item.id === e.id), realIndex: j })));
   const total = Math.round(all.reduce((s, x) => s + x.e.points, 0) * 100) / 100;
   const startNum = (page) => pages.slice(0, page).reduce((s, p) => s + visibleCount(p), 1);
@@ -280,7 +281,7 @@ export default function App6() {
       {kind !== 'homework' && <><label className="total-mode-control"><input type="checkbox" checked={totalLocked} onChange={(ev) => changeTotalLock(ev.target.checked)} />{totalLocked ? 'Total bloqué : ' : 'Total libre : '}{fmt(total)}</label><p className={`points-total ${totalLocked ? 'locked' : 'free'}`}>{totalLocked ? 'Total général bloqué : ' : 'Total général libre : '}{fmt(total)}</p></>}
       <button type="button" className={`pdf-lines-toggle ${pdfLines ? 'on' : 'off'}`} onClick={() => setPdfLines((v) => !v)}>{pdfLines ? 'Lignes visibles dans le PDF' : 'Lignes masquées dans le PDF'}</button>
       <button type="button" className={`bar-ribbon-toggle ${barRibbon ? 'on' : 'off'}`} onClick={() => setBarRibbon((v) => !v)}>{barRibbon ? 'Ruban de barème visible' : 'Ruban de barème masqué'}</button>
-      <section className="exercise-count-section"><h2>Nombre d’exercices</h2><div className="page-count-grid">{pages.map((p, i) => <div className="page-count-card" key={i}><label>Page {i + 1}</label><div className="duration-control compact-control"><button onClick={() => setCount(i, -1)} disabled={visibleCount(p) === 0}>−</button><strong>{visibleCount(p)}</strong><button onClick={() => setCount(i, 1)} disabled={visibleCount(p) === MAX_EX || (i > 0 && visibleCount(pages[0]) === 0)}>+</button></div></div>)}</div></section>
+      <section className="exercise-count-section"><h2>Nombre d’exercices</h2><div className="page-count-grid">{countPages.map(({ p, i }) => <div className="page-count-card" key={i}><label>Page {i + 1}</label><div className="duration-control compact-control"><button onClick={() => setCount(i, -1)} disabled={visibleCount(p) === 0}>−</button><strong>{visibleCount(p)}</strong><button onClick={() => setCount(i, 1)} disabled={visibleCount(p) === MAX_EX || (i > 0 && visibleCount(pages[0]) === 0)}>+</button></div></div>)}</div></section>
       {active.flatMap((page) => pages[page].map((e) => <input key={e.id} ref={(n) => { fileRefs.current[e.id] = n; }} className="hidden-file-input" type="file" accept="image/*" onChange={(ev) => changeImage(page, e.id, ev.target.files?.[0])} />))}
       <button onClick={preview} disabled={exporting}>{exporting ? 'Préparation...' : 'Voir PDF'}</button><button className="secondary" onClick={download} disabled={exporting}>{exporting ? 'Export en cours...' : 'Exporter PDF A4'}</button>
     </section>
