@@ -58,8 +58,7 @@ function syncExerciseTitles() {
     var text = span.textContent || '';
     var match = text.match(/(?:Exercice|\u062a\u0645\u0631\u064a\u0646)\s*(\d+)/i);
     if (!match) return;
-    var colon = text.indexOf(':') !== -1 || text.indexOf('\uFF1A') !== -1 ? ' : ' : '';
-    var next = 'Exercice ' + match[1] + colon;
+    var next = window.__examLanguage === 'ar' ? '\u062a\u0645\u0631\u064a\u0646 ' + match[1] + ' :' : 'Exercice ' + match[1] + ' :';
     if (span.textContent !== next) span.textContent = next;
   });
 }
