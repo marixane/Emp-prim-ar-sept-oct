@@ -20,15 +20,23 @@ body.arabic-mode .exercise-title {
 
 body.arabic-mode .exam-page.has-bar-ribbon .exercise-body::before {
   left: auto !important;
-  right: -6px !important;
+  right: calc(-6px - 4mm) !important;
 }
 
 body.arabic-mode .exam-page.has-bar-ribbon .exercise-body::after {
-  content: 'سلم التنقيط' !important;
+  display: none !important;
+  content: none !important;
+}
+
+body.arabic-mode .exam-page.has-bar-ribbon .exam-exercise:first-child .exercise-body::after {
+  content: 'سلم\A التنقيط' !important;
+  display: block !important;
   left: auto !important;
-  right: calc(-2px + 1mm) !important;
+  right: calc(-2px - 3mm) !important;
   width: 25px !important;
   font-size: 6px !important;
+  line-height: 1.05 !important;
+  white-space: pre-line !important;
   text-align: center !important;
 }
 
