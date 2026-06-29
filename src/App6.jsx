@@ -96,6 +96,7 @@ export default function App6() {
     } : e) : p));
   };
   const balance = (next, targetTotal = noteTotal) => {
+    if (!targetTotal) return next;
     const pos = next.flatMap((p, pi) => p.map((item, ei) => item.blank ? null : { pi, ei }).filter(Boolean));
     const p = pts(pos.length, targetTotal);
     return next.map((page, pi) => page.map((item, ei) => {
@@ -104,8 +105,9 @@ export default function App6() {
     }));
   };
   const changeNoteTotal = (targetTotal) => {
-    setNoteTotal(targetTotal);
-    setPages((cur) => balance(cur, targetTotal));
+    const nextTotal = noteTotal === targetTotal ? null : targetTotal;
+    setNoteTotal(nextTotal);
+    if (nextTotal) setPages((cur) => balance(cur, nextTotal));
   };
   const setCount = (page, d) => {
     if (page > 0 && d > 0 && visibleCount(pages[0]) === 0) return;
@@ -119,7 +121,7 @@ export default function App6() {
         const real = p.filter((item) => !item.blank);
         return Array.from({ length: n }, (_, j) => real[j] ? { ...real[j], masks: real[j].masks ?? [], barMarks: [] } : ex(j));
       });
-      return balance(next, noteTotal);
+      return noteTotal ? balance(next, noteTotal) : next;
     });
     setHs((cur) => cur.map((p, i) => {
       if (n === 0 && i > page) return [];
@@ -137,6 +139,7 @@ export default function App6() {
     const current = pages[page][index];
     if (!current || current.blank) return false;
     const next = Math.round((current.points + d * 0.25) * 100) / 100;
+    if (!noteTotal) return next >= 0.25 && next <= 20;
     const peer = pointPeer(page, index);
     if (!peer) return false;
     const peerNext = Math.round((peer.e.points - d * 0.25) * 100) / 100;
@@ -144,6 +147,10 @@ export default function App6() {
   };
   const changePoint = (page, index, d) => {
     if (!canChangePoint(page, index, d)) return;
+    if (!noteTotal) {
+      setPages((cur) => cur.map((p, pi) => p.map((e, ei) => pi === page && ei === index ? { ...e, barMarks: [], points: Math.round((e.points + d * 0.25) * 100) / 100 } : e)));
+      return;
+    }
     const peer = pointPeer(page, index);
     if (!peer) return;
     const a = pages[page][index].points + d * 0.25;
@@ -271,7 +278,7 @@ export default function App6() {
     <section className="panel">
       <p className="eyebrow">A4 Exam Maker</p><h1>Créer une feuille A4 avec entête fixe</h1><p className="intro">Choisis le type de devoir, puis le nombre d’exercices par page.</p>
       <div className="form-group"><label>Type de devoir</label><div className="duration-control compact-control assignment-control"><button onClick={() => { setKind('individual'); setTitleTop(IND_TITLE_TOP); }} disabled={kind === 'individual'}>Individuel</button><button onClick={() => { setKind('homework'); setTitleTop(HOME_TITLE_TOP); }} disabled={kind === 'homework'}>À la maison</button></div></div>
-      {kind !== 'homework' && <div className="note-scale-control"><div className="note-scale-title">Notes :</div><div className="note-scale-buttons"><button type="button" className={`note-scale-button ${noteTotal === 10 ? 'active' : ''}`} onClick={() => changeNoteTotal(10)}>Sur 10</button><button type="button" className={`note-scale-button ${noteTotal === 20 ? 'active' : ''}`} onClick={() => changeNoteTotal(20)}>Sur 20</button></div><div className="note-scale-counter">Total : {fmt(total)} / {noteTotal}</div></div>}
+      {kind !== 'homework' && <div className="note-scale-control"><div className="note-scale-title">Notes :</div><div className="note-scale-buttons"><button type="button" className={`note-scale-button ${noteTotal === 10 ? 'active' : ''}`} onClick={() => changeNoteTotal(10)}>Sur 10</button><button type="button" className={`note-scale-button ${noteTotal === 20 ? 'active' : ''}`} onClick={() => changeNoteTotal(20)}>Sur 20</button></div><div className="note-scale-counter">Total : {fmt(total)} {noteTotal ? `/ ${noteTotal}` : '/ libre'}</div></div>}
       <button type="button" className={`pdf-lines-toggle ${pdfLines ? 'on' : 'off'}`} onClick={() => setPdfLines((v) => !v)}>{pdfLines ? 'Lignes visibles dans le PDF' : 'Lignes masquées dans le PDF'}</button>
       <button type="button" className={`bar-ribbon-toggle ${barRibbon ? 'on' : 'off'}`} onClick={() => setBarRibbon((v) => !v)}>{barRibbon ? 'Ruban de barème visible' : 'Ruban de barème masqué'}</button>
       <section className="exercise-count-section"><h2>Nombre d’exercices</h2><div className="page-count-grid">{countPages.map(({ p, i }) => <div className="page-count-card" key={i}><label>Page {i + 1}</label><div className="duration-control compact-control"><button onClick={() => setCount(i, -1)} disabled={visibleCount(p) === 0}>−</button><strong>{visibleCount(p)}</strong><button onClick={() => setCount(i, 1)} disabled={visibleCount(p) === MAX_EX || (i > 0 && visibleCount(pages[0]) === 0)}>+</button></div></div>)}</div></section>
