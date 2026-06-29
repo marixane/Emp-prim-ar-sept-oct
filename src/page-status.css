@@ -111,12 +111,23 @@
 
 .site-preview-zoom-55 .preview-zone .a4-page:not(.is-exporting) {
   zoom: 0.55 !important;
-  flex-basis: 437px !important;
+  flex: 0 0 437px !important;
+  width: 437px !important;
+  height: 618px !important;
+  overflow: visible !important;
 }
 
 .site-preview-zoom-45 .preview-zone .a4-page:not(.is-exporting) {
   zoom: 0.45 !important;
-  flex-basis: 358px !important;
+  flex: 0 0 358px !important;
+  width: 358px !important;
+  height: 505px !important;
+  overflow: visible !important;
+}
+
+.site-preview-zoom-55 .preview-zone,
+.site-preview-zoom-45 .preview-zone {
+  gap: 18px !important;
 }
 
 .exam-page.is-exporting .exercise-body {
