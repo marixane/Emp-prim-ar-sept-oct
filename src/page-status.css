@@ -23,15 +23,37 @@
   background: #e2e8f0 !important;
 }
 
+.compact-control button,
+.tiny-duration-control button,
+.exercise-title-controls button {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.compact-control button::after,
+.tiny-duration-control button::after,
+.exercise-title-controls button::after {
+  content: '';
+  position: absolute;
+  inset: -12px !important;
+  border-radius: 999px;
+}
+
 .compact-control button:not(:disabled),
 .tiny-duration-control button:not(:disabled),
-.exercise-title-controls button:not(:disabled) {
+.exercise-title-controls button:not(:disabled),
+.compact-control button:not(:disabled)::after,
+.tiny-duration-control button:not(:disabled)::after,
+.exercise-title-controls button:not(:disabled)::after {
   cursor: pointer !important;
 }
 
 .compact-control button:disabled,
 .tiny-duration-control button:disabled,
-.exercise-title-controls button:disabled {
+.exercise-title-controls button:disabled,
+.compact-control button:disabled::after,
+.tiny-duration-control button:disabled::after,
+.exercise-title-controls button:disabled::after {
   cursor: not-allowed !important;
 }
 
