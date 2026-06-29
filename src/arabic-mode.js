@@ -9,14 +9,7 @@ const FR_HEADER = {
   rightBottom: 'N° : 1 Semestre : 1'
 };
 
-const AR_HEADER = {
-  level: 'قسم : 2 باك ع.ف',
-  titleTop: 'فرض محروس',
-  titleMiddle: 'الرياضيات',
-  titleBottom: '',
-  rightTop: 'ثانوية الجامعي، طنجة',
-  rightBottom: 'رقم : 1 الدورة : 1'
-};
+const AR_HEADER = { ...FR_HEADER };
 
 function setInputValue(selector, value) {
   var input = document.querySelector(selector);
@@ -35,23 +28,6 @@ function syncHeaderLanguage() {
   setInputValue('.title-line-bottom', header.titleBottom);
   setInputValue('.right-line-top', header.rightTop);
   setInputValue('.right-line-bottom', header.rightBottom);
-}
-
-function formatArabicDurationText() {
-  var node = document.querySelector('.tiny-duration-control strong');
-  if (!node) return;
-  var text = node.textContent || '';
-  if (window.__examLanguage !== 'ar') return;
-  var next = text
-    .replace(/1 h 30/g, '1 س 30 د')
-    .replace(/2 h 30/g, '2 س 30 د')
-    .replace(/3 h 30/g, '3 س 30 د')
-    .replace(/1 h/g, '1 س')
-    .replace(/2 h/g, '2 س')
-    .replace(/3 h/g, '3 س')
-    .replace(/4 h/g, '4 س')
-    .replace(/30 min/g, '30 د');
-  if (node.textContent !== next) node.textContent = next;
 }
 
 function syncLanguageButton() {
@@ -78,13 +54,12 @@ function syncLanguageButton() {
 }
 
 function syncExerciseTitles() {
-  var arabic = window.__examLanguage === 'ar';
   document.querySelectorAll('.exam-exercise:not(.blank-exercise) .exercise-title-controls > span:first-child').forEach(function (span) {
     var text = span.textContent || '';
     var match = text.match(/(?:Exercice|\u062a\u0645\u0631\u064a\u0646)\s*(\d+)/i);
     if (!match) return;
     var colon = text.indexOf(':') !== -1 || text.indexOf('\uFF1A') !== -1 ? ' : ' : '';
-    var next = arabic ? '\u062a\u0645\u0631\u064a\u0646 ' + match[1] + colon : 'Exercice ' + match[1] + colon;
+    var next = 'Exercice ' + match[1] + colon;
     if (span.textContent !== next) span.textContent = next;
   });
 }
@@ -95,7 +70,6 @@ function syncLanguageMode() {
   syncLanguageButton();
   syncHeaderLanguage();
   syncExerciseTitles();
-  formatArabicDurationText();
   if (typeof formatExercisePointLabels === 'function') formatExercisePointLabels();
 }
 
@@ -106,5 +80,4 @@ setTimeout(syncLanguageMode, 400);
 new MutationObserver(function () {
   syncLanguageButton();
   syncExerciseTitles();
-  formatArabicDurationText();
 }).observe(document.body, { childList: true, subtree: true });
