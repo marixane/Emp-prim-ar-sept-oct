@@ -54,8 +54,14 @@ export default function App6() {
   const setCount = (page, d) => {
     const min = page === 0 ? 1 : 0;
     const n = clamp(pages[page].length + d, min, MAX_EX);
-    setPages((cur) => balance(cur.map((p, i) => i === page ? Array.from({ length: n }, (_, j) => p[j] ?? ex(j)) : p)));
-    setHs((cur) => cur.map((p, i) => i === page ? heights(n, i === 0 ? H1 : HN) : p));
+    setPages((cur) => balance(cur.map((p, i) => {
+      if (n === 0 && i > page) return [];
+      return i === page ? Array.from({ length: n }, (_, j) => p[j] ?? ex(j)) : p;
+    })));
+    setHs((cur) => cur.map((p, i) => {
+      if (n === 0 && i > page) return [];
+      return i === page ? heights(n, i === 0 ? H1 : HN) : p;
+    }));
   };
   const pointPeer = (page, index) => {
     const k = all.findIndex((x) => x.page === page && x.index === index);
