@@ -60,6 +60,10 @@ body,
 
 .exercise-count-section {
   margin: 16px 0;
+  border: 2px solid #d7d7d7;
+  border-radius: 14px;
+  padding: 12px;
+  background: #f8f8f8;
 }
 
 .exercise-count-section h2 {
@@ -70,7 +74,7 @@ body,
 
 .page-count-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 
