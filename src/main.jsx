@@ -53,5 +53,6 @@ import './bar-ribbon-label.css';
 import './arabic-mode.css';
 import './arabic-mode.js';
 import './a4-overview.js';
+import './active-settings-green.css';
 
 createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>);
