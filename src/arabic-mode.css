@@ -306,3 +306,18 @@ body.arabic-mode .panel .bar-ribbon-toggle::after {
   font-size: 11px !important;
   line-height: 1.15 !important;
 }
+
+body.arabic-mode .panel .pdf-lines-toggle::after,
+body.arabic-mode .panel .bar-ribbon-toggle::after,
+body.arabic-mode .panel .page-date-title,
+body.arabic-mode .panel .note-scale-title,
+body.arabic-mode .panel .page-count-card label {
+  font-size: 12.5px !important;
+  line-height: 1.2 !important;
+}
+
+body.arabic-mode .panel .language-toggle,
+body.arabic-mode .panel .individual-toggle,
+body.arabic-mode .panel .a4-overview-toggle {
+  font-size: 16px !important;
+}
