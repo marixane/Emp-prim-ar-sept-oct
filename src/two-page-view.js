@@ -1,11 +1,16 @@
 const TWO_PAGE_VIEW_KEY = 'exam-two-page-view';
+let lastMultiplePageState = false;
+
+function pageCount() {
+  return document.querySelectorAll('.preview-zone .a4-page').length;
+}
 
 function hasMultiplePages() {
-  return document.querySelectorAll('.preview-zone .a4-page').length > 1;
+  return pageCount() > 1;
 }
 
 function isTwoPageViewEnabled() {
-  return localStorage.getItem(TWO_PAGE_VIEW_KEY) === 'true';
+  return localStorage.getItem(TWO_PAGE_VIEW_KEY) !== 'false';
 }
 
 function setTwoPageView(enabled) {
@@ -13,18 +18,28 @@ function setTwoPageView(enabled) {
   syncTwoPageView();
 }
 
+function autoEnableWhenSecondPageAppears(multiple) {
+  if (multiple && !lastMultiplePageState) {
+    localStorage.setItem(TWO_PAGE_VIEW_KEY, 'true');
+  }
+  lastMultiplePageState = multiple;
+}
+
 function syncTwoPageView() {
   const multiple = hasMultiplePages();
+  autoEnableWhenSecondPageAppears(multiple);
   const enabled = isTwoPageViewEnabled() && multiple;
   document.body.classList.toggle('two-page-view', enabled);
 
   const button = document.querySelector('.two-page-view-toggle');
   if (!button) return;
+
   button.classList.toggle('on', enabled);
   button.classList.toggle('off', !enabled);
   button.disabled = !multiple;
-  button.textContent = enabled ? '2 feuilles côte à côte' : 'Affichage normal';
-  button.title = multiple ? 'Afficher ou masquer les feuilles côte à côte' : 'Ajoute une 2e feuille pour activer cet affichage';
+  button.innerHTML = enabled ? '<span class="two-page-icon two-page-icon-2" aria-hidden="true"><i></i><i></i></span>' : '<span class="two-page-icon two-page-icon-1" aria-hidden="true"><i></i></span>';
+  button.setAttribute('aria-label', enabled ? 'Affichage 2 pages côte à côte' : 'Affichage 1 page');
+  button.title = multiple ? (enabled ? 'Afficher 1 page' : 'Afficher 2 pages côte à côte') : 'Ajoute une 2e feuille pour activer cet affichage';
 }
 
 function ensureTwoPageViewButton() {
