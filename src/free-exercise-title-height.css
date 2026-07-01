@@ -13,3 +13,8 @@ body.no-title-points .exam-exercise:not(.blank-exercise) .exercise-title-control
   display: inline-block !important;
   transform: translateX(8px) !important;
 }
+
+body.arabic-mode.no-title-points .exam-exercise:not(.blank-exercise) .exercise-title-controls {
+  width: calc(100% + 3cm) !important;
+  min-width: calc(100% + 3cm) !important;
+}
