@@ -52,6 +52,7 @@ import './pdf-exercise-points-clean.css';
 import './french-pdf-header-nudge.css';
 import './homework-exercise-title-fix.css';
 import './bar-ribbon-label.css';
+import './bar-ribbon-page-position.js';
 import './arabic-mode.css';
 import './arabic-mode.js';
 import './arabic-duration-stable.js';
