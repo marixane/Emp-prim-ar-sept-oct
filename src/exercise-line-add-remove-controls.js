@@ -17,31 +17,56 @@ function getRealExerciseCount(pageIndex) {
   }).length;
 }
 
-function clickExerciseCountButton(pageIndex, wanted) {
-  var before = getRealExerciseCount(pageIndex);
+function findCountButton(pageIndex, wanted) {
   var card = getPageCards()[pageIndex];
-  if (!card) return false;
+  if (!card) return null;
   var buttons = Array.from(card.querySelectorAll('.compact-control button'));
-  var button = buttons.find(function (b) {
+  return buttons.find(function (b) {
     var text = String(b.textContent || '').trim();
     return !b.disabled && (text === wanted || (wanted === '-' && text === '−'));
-  });
+  }) || null;
+}
+
+function refreshSoon() {
+  setTimeout(syncExerciseLineControls, 40);
+  setTimeout(syncExerciseLineControls, 120);
+  setTimeout(syncExerciseLineControls, 260);
+  setTimeout(syncExerciseLineControls, 520);
+}
+
+function retryAddFirstExercise(pageIndex, triesLeft) {
+  if (getRealExerciseCount(pageIndex) > 0 || triesLeft <= 0) {
+    refreshSoon();
+    return;
+  }
+
+  var button = findCountButton(pageIndex, '+');
+  if (button) button.click();
+  refreshSoon();
+
+  setTimeout(function () {
+    retryAddFirstExercise(pageIndex, triesLeft - 1);
+  }, 140);
+}
+
+function clickExerciseCountButton(pageIndex, wanted) {
+  var before = getRealExerciseCount(pageIndex);
+  var button = findCountButton(pageIndex, wanted);
   if (!button) return false;
+
   button.click();
-  setTimeout(syncExerciseLineControls, 60);
-  setTimeout(syncExerciseLineControls, 150);
-  setTimeout(syncExerciseLineControls, 280);
+  refreshSoon();
 
   if ((wanted === '-' || wanted === '−') && before === 1) {
     setTimeout(function () {
       if (getRealExerciseCount(pageIndex) !== 0) clickExerciseCountButton(pageIndex, '-');
-    }, 80);
+    }, 90);
   }
 
   if (wanted === '+' && before === 0) {
     setTimeout(function () {
-      if (getRealExerciseCount(pageIndex) === 0) clickExerciseCountButton(pageIndex, '+');
-    }, 80);
+      retryAddFirstExercise(pageIndex, 6);
+    }, 90);
   }
 
   return true;
