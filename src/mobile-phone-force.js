@@ -12,12 +12,12 @@ function applyMobilePhoneForce() {
   var gap = 6;
   var pagesOverflow = (pageCount * scaledPageHeight + Math.max(0, pageCount - 1) * gap) > (viewportHeight + 2);
   var needsVerticalScroll = pageCount > 1 || pagesOverflow;
-  var bottomRoom = needsVerticalScroll ? 40 : 0;
+  var bottomRoom = needsVerticalScroll ? 18 : 0;
   var sideMargin = Math.max(0, Math.floor((viewportWidth - scaledWidth) / 2));
   var mobileA4Gap = -Math.max(0, Math.round(1123 * (1 - mobileScale) - bottomRoom));
   var previewOverflowY = needsVerticalScroll ? 'auto' : 'hidden';
-  var previewPaddingBottom = needsVerticalScroll ? 40 : 0;
-  var lastPageBottom = needsVerticalScroll ? 40 : 0;
+  var previewPaddingBottom = needsVerticalScroll ? 12 : 0;
+  var lastPageBottom = mobileA4Gap;
 
   var style = document.createElement('style');
   style.id = 'mobile-phone-force-style';
