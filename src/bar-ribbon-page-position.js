@@ -42,6 +42,29 @@ function clickNoteTotalOnly(label) {
   return true;
 }
 
+function isHomeworkMode() {
+  var homework = findByText('button', ['À la maison']);
+  return !!(homework && homework.disabled);
+}
+
+function updateAssignmentButton(button) {
+  if (!button) return;
+  var homeworkMode = isHomeworkMode();
+  button.textContent = homeworkMode ? 'I' : 'M';
+  button.title = homeworkMode ? 'Passer en devoir individuel' : 'Passer en devoir à la maison';
+  button.setAttribute('aria-label', button.title);
+  button.disabled = false;
+}
+
+function clickAssignmentToggle(button) {
+  var homeworkMode = isHomeworkMode();
+  var target = homeworkMode ? findByText('button', ['Individuel']) : findByText('button', ['À la maison']);
+  if (target && !target.disabled) target.click();
+  setTimeout(function () { updateAssignmentButton(button); }, 30);
+  setTimeout(syncA4ProxyControls, 80);
+  setTimeout(syncA4ProxyControls, 250);
+}
+
 function updateToggleButton(button, scale) {
   if (!button) return;
   var next = scale === '/20' ? '/10' : '/20';
@@ -97,6 +120,10 @@ function syncA4ProxyControls() {
   });
 
   makeProxy('a4-top-control a4-icon-control a4-lines-proxy', 'Lignes PDF', '', function () {
+    if (typeof window.cycleExamLineMode === 'function') {
+      window.cycleExamLineMode();
+      return;
+    }
     var b = getOriginal('.pdf-lines-toggle');
     if (b && !b.disabled) b.click();
   });
@@ -106,10 +133,10 @@ function syncA4ProxyControls() {
     if (b && !b.disabled) b.click();
   });
 
-  makeProxy('a4-top-control a4-text-control a4-free-proxy', document.body.classList.contains('no-title-points') ? 'Devoir individuel' : 'Devoir libre', document.body.classList.contains('no-title-points') ? 'D' : 'L', function () {
-    var b = getOriginal('.individual-toggle');
-    if (b && !b.disabled) b.click();
+  var assignmentProxy = makeProxy('a4-top-control a4-text-control a4-free-proxy', isHomeworkMode() ? 'Passer en devoir individuel' : 'Passer en devoir à la maison', isHomeworkMode() ? 'I' : 'M', function (button) {
+    clickAssignmentToggle(button);
   });
+  updateAssignmentButton(assignmentProxy);
 
   var currentScale = getRealNoteScale();
   var nextScale = currentScale === '/20' ? '/10' : '/20';
