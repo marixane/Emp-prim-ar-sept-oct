@@ -119,7 +119,7 @@ function syncPageNumberControls() {
       document.body.appendChild(controls);
     }
 
-    controls.style.left = (rect.left + rect.width / 2 + 185) + 'px';
+    controls.style.left = (rect.left + rect.width / 2 + 195) + 'px';
     controls.style.top = (rect.bottom - 32) + 'px';
 
     var minus = controls.querySelector('.minus');
