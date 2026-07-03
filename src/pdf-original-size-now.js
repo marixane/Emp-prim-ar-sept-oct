@@ -106,7 +106,11 @@ function forcePdfLineBackground(clone) {
 
     if (hideLines) return;
 
-    const height = Math.max(0, body.offsetHeight || body.getBoundingClientRect().height || 0);
+    const rect = body.getBoundingClientRect();
+    const height = Math.max(0, body.scrollHeight || body.offsetHeight || rect.height || parseFloat(body.style.height) || 0);
+    const width = Math.max(0, body.scrollWidth || body.offsetWidth || rect.width || 0);
+    if (!height || !width) return;
+
     for (let y = 28; y < height; y += 29) {
       const line = document.createElement('div');
       line.className = 'pdf-real-line';
@@ -159,7 +163,6 @@ function preparePdfClone(original) {
   clone.classList.toggle('no-pdf-lines', !!hideLines);
 
   if (original.classList.contains('second-page')) stretchExtraPageForPdf(clone);
-  forcePdfLineBackground(clone);
   forceExerciseBottomFrame(clone);
 
   return clone;
@@ -196,6 +199,8 @@ async function makeOriginalPdf() {
       workspace.appendChild(clone);
 
       await wait(120);
+      forcePdfLineBackground(clone);
+      await wait(30);
 
       const canvas = await html2canvas(clone, {
         scale: 2,
