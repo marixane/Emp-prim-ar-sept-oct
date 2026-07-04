@@ -73,7 +73,7 @@ body.cahier-tab-active .exercise-line-count-overlay {
   grid-template-columns: 1fr 1.2fr 1fr;
   gap: 6px;
   align-items: center;
-  margin-bottom: 7px;
+  margin-bottom: 5px;
 }
 
 .cahier-header h2 {
@@ -98,6 +98,26 @@ body.cahier-tab-active .exercise-line-count-overlay {
 .cahier-header input:nth-of-type(3) {
   grid-column: 1 / 4;
   text-align: center;
+}
+
+.total-hours-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 140px;
+  min-height: 20px;
+  margin: 0 auto 5px;
+  border: 2px solid #111;
+  background: white;
+  color: #111;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.total-hours-control strong {
+  font-size: 12px;
 }
 
 .timetable-table {
