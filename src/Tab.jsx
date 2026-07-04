@@ -195,6 +195,25 @@ export default function Tab() {
     }));
   };
 
+  const shrinkCellLeft = (dayIndex, hourIndex) => {
+    setRows((current) => current.map((row, i) => {
+      if (i !== dayIndex) return row;
+      const currentHour = hours[hourIndex];
+      const cell = normalizeCell(row.cells[currentHour]);
+      if (cell.span <= 1 || hourIndex + 1 >= hours.length) return row;
+      const nextHour = hours[hourIndex + 1];
+
+      return {
+        ...row,
+        cells: {
+          ...row.cells,
+          [currentHour]: createCell(),
+          [nextHour]: { ...cell, span: cell.span - 1, hidden: false }
+        }
+      };
+    }));
+  };
+
   const shrinkCellRight = (dayIndex, hourIndex) => {
     setRows((current) => current.map((row, i) => {
       if (i !== dayIndex) return row;
@@ -263,7 +282,8 @@ export default function Tab() {
                   >
                     {hasClass && <div className="span-tools no-print" onClick={(e) => e.stopPropagation()}>
                       <button type="button" onClick={() => extendCellLeft(dayIndex, hourIndex)} disabled={!canExtendLeft(row, hourIndex)}>‹</button>
-                      {cell.span > 1 && <button type="button" className="span-remove-button" onClick={() => shrinkCellRight(dayIndex, hourIndex)}>×</button>}
+                      {cell.span > 1 && <button type="button" className="span-remove-button" onClick={() => shrinkCellLeft(dayIndex, hourIndex)}>×‹</button>}
+                      {cell.span > 1 && <button type="button" className="span-remove-button" onClick={() => shrinkCellRight(dayIndex, hourIndex)}>×›</button>}
                       <button type="button" onClick={() => extendCellRight(dayIndex, hourIndex)} disabled={!canExtendRight(row, hourIndex)}>›</button>
                     </div>}
                     <textarea
