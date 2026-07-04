@@ -21,6 +21,12 @@ const getCellColor = (text) => {
   return CELL_COLORS[Math.abs(hash) % CELL_COLORS.length];
 };
 
+const getSchoolYear = () => {
+  const today = new Date();
+  const startYear = today.getMonth() >= 8 ? today.getFullYear() : today.getFullYear() - 1;
+  return `Année scolaire : ${startYear} / ${startYear + 1}`;
+};
+
 const createRows = () => DAYS.map((day) => ({
   day,
   cells: HOURS.reduce((acc, hour) => ({ ...acc, [hour]: createCell() }), {})
@@ -42,13 +48,13 @@ const normalizeCell = (cell) => {
 export default function Tab() {
   const [school, setSchool] = useState('Établissement :');
   const [teacher, setTeacher] = useState('Professeur :');
-  const [year, setYear] = useState('Année scolaire : 2026 / 2027');
   const [hours, setHours] = useState(HOURS);
   const [rows, setRows] = useState(createRows);
   const [copiedCell, setCopiedCell] = useState(null);
   const [selectedCell, setSelectedCell] = useState(null);
   const [draggedCell, setDraggedCell] = useState(null);
   const [dragOverCell, setDragOverCell] = useState(null);
+  const schoolYear = getSchoolYear();
 
   const validateOnEnter = (event) => {
     if (event.key !== 'Enter') return;
@@ -271,7 +277,7 @@ export default function Tab() {
           <input value={school} onChange={(e) => setSchool(e.target.value)} onKeyDown={validateOnEnter} />
           <h2>Cahier de texte</h2>
           <input value={teacher} onChange={(e) => setTeacher(e.target.value)} onKeyDown={validateOnEnter} />
-          <input value={year} onChange={(e) => setYear(e.target.value)} onKeyDown={validateOnEnter} />
+          <input value={schoolYear} readOnly aria-label="Année scolaire automatique" />
         </header>
 
         <div className="total-hours-control">
