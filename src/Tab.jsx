@@ -299,7 +299,7 @@ export default function Tab() {
                       onClick={(e) => e.stopPropagation()}
                       onDragStart={(e) => e.preventDefault()}
                       onKeyDown={validateOnEnter}
-                      placeholder="Classe / matière"
+                      placeholder="Classe"
                       rows="4"
                     />
                     {hasClass && <label className="room-control" onClick={(e) => e.stopPropagation()}>
