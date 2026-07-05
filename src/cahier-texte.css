@@ -544,21 +544,32 @@ body.cahier-tab-active .exercise-line-count-overlay {
   outline: none;
 }
 
+.activity-top-row th,
+.activity-label-row th {
+  position: relative;
+}
+
 .activity-top-row textarea,
 .activity-label-row textarea {
-  font-size: 22px;
-  font-weight: 900;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: auto;
+  min-height: 0;
+  max-height: none;
   padding: 0 4px;
   text-align: center;
   overflow: hidden;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.05;
+  white-space: pre-wrap;
 }
 
-.activity-top-row textarea {
-  line-height: 45px;
-}
-
-.activity-label-row textarea {
-  line-height: 42px;
+.activity-label-row th:last-child textarea {
+  font-size: 18px;
+  line-height: 1.15;
 }
 
 .activity-main-cell textarea {
