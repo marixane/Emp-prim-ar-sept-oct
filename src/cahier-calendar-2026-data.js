@@ -1,0 +1,30 @@
+window.CAHIER_2026_2027 = {
+  startYear: 2026,
+  label: '2026/2027',
+  dash: '2026-2027',
+  events: [
+    ['18/10','25/10','Scolaire','Vacance scolaire : Vacances intermédiaires 1','holiday'],
+    ['31/10','31/10','Nationale','Fête nationale : Fête de l’Unité','holiday'],
+    ['06/11','06/11','Nationale','Fête nationale : Marche Verte','holiday'],
+    ['18/11','18/11','Nationale','Fête nationale : Fête de l’Indépendance','holiday'],
+    ['06/12','13/12','Scolaire','Vacance scolaire : Vacances intermédiaires 2','holiday'],
+    ['01/01','01/01','Nationale','Fête nationale : Nouvel An','holiday'],
+    ['11/01','11/01','Nationale','Fête nationale : Manifeste de l’Indépendance','holiday'],
+    ['14/01','14/01','Nationale','Fête nationale : Nouvel An Amazigh','holiday'],
+    ['18/01','19/01','Primaire','Examen : Examen normalisé local','exam'],
+    ['24/01','31/01','Scolaire','Vacance scolaire : Vacances de mi-année','holiday'],
+    ['08/03','11/03','Religieuse','Vacance religieuse : Aïd Al-Fitr','holiday'],
+    ['21/03','28/03','Scolaire','Vacance scolaire : Vacances intermédiaires 3','holiday'],
+    ['01/05','01/05','Nationale','Fête nationale : Fête du Travail','holiday'],
+    ['09/05','16/05','Scolaire','Vacance scolaire : Vacances intermédiaires 4','holiday'],
+    ['15/05','17/05','Religieuse','Vacance religieuse : Aïd Al-Adha','holiday'],
+    ['28/05','29/05','Lycée','Examen : Examen régional 1ère Bac','exam'],
+    ['01/06','03/06','Lycée','Examen : Examen national 2ème Bac','exam'],
+    ['05/06','05/06','Religieuse','Vacance religieuse : 1er Moharram','holiday'],
+    ['23/06','24/06','Collège','Examen : Examen régional','exam'],
+    ['25/06','26/06','Primaire','Examen : Examen normalisé provincial','exam'],
+    ['28/06','29/06','Lycée','Rattrapage : 1ère Bac','exam'],
+    ['01/07','03/07','Lycée','Rattrapage : 2ème Bac','exam']
+  ],
+  flags: [['18/10','Vacances intermédiaires 1'],['06/12','Vacances intermédiaires 2'],['21/03','Vacances intermédiaires 3'],['09/05','Vacances intermédiaires 4']]
+};
