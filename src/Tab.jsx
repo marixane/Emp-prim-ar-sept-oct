@@ -372,6 +372,14 @@ export default function Tab() {
 
       <div className="a4-page cahier-page activity-page">
         <table className="activity-table">
+          <colgroup>
+            <col style={{ width: '10%' }} />
+            <col style={{ width: '10%' }} />
+            <col style={{ width: '10%' }} />
+            <col style={{ width: '25%' }} />
+            <col style={{ width: '25%' }} />
+            <col style={{ width: '20%' }} />
+          </colgroup>
           <thead>
             <tr className="activity-top-row">
               <th colSpan="3"><textarea defaultValue="Séquence:" /></th>
