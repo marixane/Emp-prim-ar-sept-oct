@@ -6,10 +6,10 @@ const CELL_COLORS = ['#fff3bf', '#d8f3dc', '#dbeafe', '#ffe4e6', '#ede9fe', '#cf
 const DOT_TEXT = Array.from({ length: 4 }, () => '.'.repeat(74)).join('\n');
 const HOMEWORK_ENTRIES = [
   ['LUNDI 15 AVRIL', '', DOT_TEXT, '#66c43f'],
-  ['MARDI 16 AVRIL', '', 'Apprendre la Fable de Jean de la Fontaine "La Cigale et la Fourmi." à partir du cahier multimedia Cahier de Fables', '#b34bd7'],
-  ['MERCREDI 17 AVRIL', '', '', '#2f80ed'],
-  ['JEUDI 18 AVRIL', '', 'Faire le quizz : Les droits de l\'enfant.', '#ff3f5f'],
-  ['VENDREDI 19 AVRIL', '', '', '#f2994a']
+  ['MARDI 16 AVRIL', '', DOT_TEXT, '#b34bd7'],
+  ['MERCREDI 17 AVRIL', '', DOT_TEXT, '#2f80ed'],
+  ['JEUDI 18 AVRIL', '', DOT_TEXT, '#ff3f5f'],
+  ['VENDREDI 19 AVRIL', '', DOT_TEXT, '#f2994a']
 ];
 
 const createCell = () => ({ text: '', room: 1, span: 1, hidden: false });
@@ -24,7 +24,7 @@ const cloneCell = (cell) => ({ ...normalizeCell(cell), hidden: false });
 
 const dotTextStyle = {
   color: 'rgba(63, 64, 80, 0.28)',
-  fontSize: '25px',
+  fontSize: '22px',
   fontWeight: 900,
   lineHeight: 1.18,
   letterSpacing: '1px',
