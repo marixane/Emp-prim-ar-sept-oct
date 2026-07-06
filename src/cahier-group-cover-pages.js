@@ -65,15 +65,15 @@ const normalizeClassForCover = (text) => String(text || '').trim().toLowerCase()
 
 const getBlockTextForCover = (block) => normalizeClassForCover(block.pages.map((page) => page.textContent || '').join(' '));
 
-const getGroupForBlock = (block, filledGroups, usedTitles) => {
+const getGroupForBlock = (block, filledGroups) => {
   const blockText = getBlockTextForCover(block);
-  const exact = filledGroups.find((group) => !usedTitles.has(group.title) && group.classes.some((className) => blockText.includes(normalizeClassForCover(className))));
+  const exact = filledGroups.find((group) => group.classes.some((className) => blockText.includes(normalizeClassForCover(className))));
   if (exact) return exact;
 
-  const byTitle = filledGroups.find((group) => !usedTitles.has(group.title) && normalizeClassForCover(block.title) === normalizeClassForCover(group.title));
+  const byTitle = filledGroups.find((group) => normalizeClassForCover(block.title) === normalizeClassForCover(group.title));
   if (byTitle) return byTitle;
 
-  return filledGroups.find((group) => !usedTitles.has(group.title)) || null;
+  return filledGroups[0] || null;
 };
 
 const buildClassesPanel = (classes) => {
@@ -178,16 +178,14 @@ const applyGroupCoverPages = () => {
 
   const blocks = splitVisibleHomeworkBlocks();
   const filledGroups = getFilledGroupClassesForCover();
-  const usedTitles = new Set();
 
   blocks.forEach((block, index) => {
     if (!block.pages.length) return;
-    const group = getGroupForBlock(block, filledGroups, usedTitles);
+    const group = getGroupForBlock(block, filledGroups);
     if (!group?.classes?.length) {
       block.pages.forEach((page) => { page.style.display = 'none'; });
       return;
     }
-    usedTitles.add(group.title);
     const color = group.color || GROUP_COVER_COLORS[index % GROUP_COVER_COLORS.length];
     applyThemeToBlockPages(block.pages, color, group.title);
     const firstPageIsJuly = block.pages[0]?.dataset.cahierJulyComplete === 'true';
