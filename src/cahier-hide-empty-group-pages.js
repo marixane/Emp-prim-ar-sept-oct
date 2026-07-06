@@ -26,6 +26,29 @@ const getEntryKey = (page, entry) => {
   return `${getCahierPageTitle(page)}|${date}|${subject}|${text}`;
 };
 
+const getCahierProgressDate = (page) => getCahierEntryDate(page.querySelector('.homework-entry')) || { day: 1, month: 9 };
+
+const getProgressPercentToJulyFirst = (date) => {
+  const start = new Date(2026, 8, 1);
+  const end = new Date(2027, 6, 1);
+  const current = new Date(date.month >= 9 ? 2026 : 2027, date.month - 1, date.day);
+  const percent = Math.round(((current - start) / (end - start)) * 100);
+  return Math.min(100, Math.max(0, percent));
+};
+
+const fixCahierProgressBars = () => {
+  document.querySelectorAll('.homework-page').forEach((page) => {
+    const progressWrap = page.firstElementChild?.children?.[1];
+    const progressBar = progressWrap?.children?.[0];
+    const progressFill = progressBar?.children?.[0];
+    const progressText = progressWrap?.children?.[1];
+    if (!progressFill || !progressText) return;
+    const percent = getProgressPercentToJulyFirst(getCahierProgressDate(page));
+    progressFill.style.setProperty('width', `${percent}%`, 'important');
+    progressText.textContent = `${percent}%`;
+  });
+};
+
 const hideDuplicateJulyEntries = () => {
   const seen = new Set();
   document.querySelectorAll('.homework-page').forEach((page) => {
@@ -63,6 +86,7 @@ const applyCahierEndLimit = () => {
 
   hideDuplicateJulyEntries();
   hideBlankPagesAndJulyCovers();
+  fixCahierProgressBars();
 };
 
 const applyEmptyGroupPageVisibility = () => {
