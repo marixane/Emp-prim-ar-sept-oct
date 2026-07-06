@@ -224,8 +224,3 @@ document.addEventListener('input', (event) => {
 }, { passive: true });
 document.addEventListener('drop', () => window.setTimeout(scheduleGroupCoverPages, 220), { passive: true });
 document.addEventListener('mouseup', () => window.setTimeout(scheduleGroupCoverPages, 220), { passive: true });
-
-new MutationObserver(scheduleGroupCoverPages).observe(document.body, {
-  childList: true,
-  subtree: true
-});
