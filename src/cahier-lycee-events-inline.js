@@ -41,6 +41,8 @@ const LYCEE_INLINE_EVENTS = [
   }
 ];
 
+const MAX_ENTRIES_PER_PAGE = 5;
+
 const parseEntrySort = (entry) => {
   if (entry.dataset.sort) return Number(entry.dataset.sort);
   const text = entry.querySelector('.homework-date')?.textContent || '';
@@ -119,6 +121,46 @@ const collectGroupBlocks = () => {
   });
 };
 
+const createEmptyHomeworkPageFrom = (sourcePage) => {
+  const page = sourcePage.cloneNode(true);
+  page.querySelectorAll('.homework-entry').forEach((entry) => entry.remove());
+  page.querySelectorAll('[data-lycee-event]').forEach((entry) => entry.remove());
+  page.dataset.autoFiveEntriesPage = 'true';
+  return page;
+};
+
+const rebalanceFiveEntriesInBlock = (block) => {
+  const pages = block.nodes.filter((node) => node.classList?.contains('homework-page'));
+  if (!pages.length) return;
+
+  const entries = pages
+    .flatMap((page) => Array.from(page.querySelectorAll('.homework-entry')))
+    .sort((a, b) => parseEntrySort(a) - parseEntrySort(b));
+
+  const neededPages = Math.max(1, Math.ceil(entries.length / MAX_ENTRIES_PER_PAGE));
+  while (pages.length < neededPages) {
+    const page = createEmptyHomeworkPageFrom(pages[pages.length - 1]);
+    pages[pages.length - 1].insertAdjacentElement('afterend', page);
+    pages.push(page);
+    block.nodes.push(page);
+  }
+
+  pages.forEach((page) => page.querySelectorAll('.homework-entry').forEach((entry) => entry.remove()));
+
+  entries.forEach((entry, index) => {
+    const pageIndex = Math.floor(index / MAX_ENTRIES_PER_PAGE);
+    pages[pageIndex].append(entry);
+  });
+
+  pages.slice(neededPages).forEach((page) => {
+    if (page.dataset.autoFiveEntriesPage === 'true') page.remove();
+  });
+};
+
+const rebalanceAllGroupsToFiveEntries = () => {
+  collectGroupBlocks().forEach(rebalanceFiveEntriesInBlock);
+};
+
 const renameAutresGroupTitles = () => {
   document.querySelectorAll('.homework-cover-page h1, .homework-page [style*="text-transform: uppercase"]').forEach((node) => {
     if (String(node.textContent || '').trim().toUpperCase() === 'AUTRES') node.textContent = 'Tronc Commun';
@@ -144,6 +186,7 @@ const insertLyceeEventsInline = () => {
     LYCEE_INLINE_EVENTS.forEach((event) => insertEventInGroupPages(firstPage, event));
   });
 
+  rebalanceAllGroupsToFiveEntries();
   orderGroupPages();
 };
 
