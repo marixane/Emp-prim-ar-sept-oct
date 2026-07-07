@@ -10,11 +10,11 @@
 
 /* Cadre blanc plus large, pastille heure plus petite */
 .homework-subject > div {
-  grid-template-columns: 66px 1fr 14px !important;
+  grid-template-columns: 66px 1fr 10px !important;
   flex: 1 1 0 !important;
   min-height: 0 !important;
   max-height: 38px !important;
-  padding: 4px 8px !important;
+  padding: 4px 2px !important;
   gap: 0 !important;
   line-height: 1 !important;
   margin-left: -6px !important;
@@ -53,9 +53,9 @@
 
 /* 3 classes : taille intermédiaire */
 .homework-subject:has(> div:nth-child(3)) > div {
-  grid-template-columns: 60px 1fr 14px !important;
+  grid-template-columns: 60px 1fr 10px !important;
   max-height: 33px !important;
-  padding: 3px 7px !important;
+  padding: 3px 2px !important;
   gap: 0 !important;
 }
 
@@ -80,9 +80,9 @@
 }
 
 .homework-subject:has(> div:nth-child(4)) > div {
-  grid-template-columns: 52px 1fr 14px !important;
+  grid-template-columns: 52px 1fr 10px !important;
   max-height: 28px !important;
-  padding: 2px 6px !important;
+  padding: 2px 2px !important;
   gap: 0 !important;
 }
 
