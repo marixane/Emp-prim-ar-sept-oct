@@ -1,7 +1,13 @@
-const durationText = (span) => `${Math.max(Number(span) || 1, 1)}h`;
+const durationText = (minutes) => `${Math.min(Math.max(Number(minutes) || 40, 1), 240)} د`;
 
-const clean = (value) => String(value || '').trim().toUpperCase().replace(/\s+/g, ' ');
-const isHourText = (value) => /^\d{1,2}:\d{2}$/.test(String(value || '').trim());
+const clean = (value) => String(value || '')
+  .trim()
+  .toUpperCase()
+  .replace(/(\d{1,2})H(?=\d{2})/g, '$1:')
+  .replace(/\s+/g, ' ');
+// Les heures de l'emploi primaire sont écrites « 08H30 » (et parfois « 08:30 »).
+// Les reconnaître évite que l'ajusteur de libellés réduise leur taille.
+const isHourText = (value) => /^\d{1,2}(?::|H)\d{2}$/i.test(String(value || '').trim());
 
 const getTimetableDurations = () => {
   const rows = Array.from(document.querySelectorAll('.timetable-table tbody tr'));
@@ -21,7 +27,7 @@ const getTimetableDurations = () => {
       const header = document.querySelector(`.timetable-table thead th:nth-child(${hourIndex + 2}) textarea`);
       const hour = clean((header?.value || header?.textContent || '').split('-')[0]);
       const span = Number(cell.colSpan) || 1;
-      map.set(`${day}|${hour}|${text}`, durationText(span));
+      map.set(`${day}|${hour}|${text}`, durationText(cell.dataset.minutes));
       hourIndex += span;
     });
   });
@@ -32,6 +38,23 @@ const getTimetableDurations = () => {
 const getEntryDay = (entry) => clean((entry.querySelector('.homework-date')?.textContent || '').split(' ')[0]);
 
 const fitNonHourLabel = (node) => {
+  const isEventLabel = Boolean(node.closest('.cahier-extra-holiday-entry, .cahier-exam-entry'));
+  if (isEventLabel) {
+    node.style.removeProperty('transform');
+    node.style.removeProperty('transform-origin');
+    node.style.setProperty('white-space', 'nowrap', 'important');
+    node.style.setProperty('overflow', 'hidden', 'important');
+
+    let size = 18;
+    node.style.setProperty('font-size', `${size}px`, 'important');
+    const availableWidth = Math.max(node.clientWidth, 0);
+    while (size > 20 && availableWidth > 0 && node.scrollWidth > availableWidth) {
+      size -= 1;
+      node.style.setProperty('font-size', `${size}px`, 'important');
+    }
+    return;
+  }
+
   node.style.removeProperty('font-size');
   node.style.setProperty('font-size', '12px', 'important');
 
@@ -44,6 +67,12 @@ const fitNonHourLabel = (node) => {
 };
 
 const fitClassLabel = (node) => {
+  if (node.closest('.cahier-session-row')) {
+    node.style.removeProperty('font-size');
+    node.style.removeProperty('transform');
+    node.style.removeProperty('transform-origin');
+    return;
+  }
   node.style.setProperty('text-overflow', 'clip', 'important');
   node.style.setProperty('white-space', 'nowrap', 'important');
   node.style.setProperty('overflow', 'visible', 'important');
@@ -52,7 +81,7 @@ const fitClassLabel = (node) => {
 
   const line = node.parentElement;
   const classCount = line?.parentElement?.children?.length || 1;
-  const maxSize = classCount >= 4 ? 20 : classCount === 3 ? 24 : 28;
+  const maxSize = classCount >= 4 ? 24 : classCount === 3 ? 28 : 32;
   const minSize = 8;
   const availableWidth = Math.max(node.clientWidth - 2, 0);
 
@@ -66,7 +95,7 @@ const fitClassLabel = (node) => {
 
   if (availableWidth > 0 && node.scrollWidth > 0) {
     const rawScale = availableWidth / node.scrollWidth;
-    const scale = Math.min(1.8, Math.max(0.78, rawScale));
+    const scale = Math.min(2, Math.max(0.86, rawScale));
     node.style.setProperty('transform', `scaleX(${scale})`, 'important');
     node.style.setProperty('transform-origin', 'center center', 'important');
   }
@@ -75,7 +104,7 @@ const fitClassLabel = (node) => {
 const markAndFitLabels = () => {
   document.querySelectorAll('.homework-subject > div').forEach((line) => {
     const hourNode = line.querySelector('span:first-child');
-    const classNode = line.querySelector('span:nth-child(2)');
+    const classNode = line.querySelector('.cahier-session-name') || line.querySelector('span:nth-child(2)');
 
     if (hourNode) {
       const nonHour = !isHourText(hourNode.textContent);
@@ -97,11 +126,12 @@ const applySessionDurations = () => {
 
     entry.querySelectorAll('.homework-subject > div').forEach((line) => {
       const spans = line.querySelectorAll('span');
-      const hour = clean(spans[0]?.textContent);
-      const className = clean(spans[1]?.textContent);
-      const duration = durations.get(`${day}|${hour}|${className}`) || '1h';
-
+      const hour = clean(line.querySelector('.cahier-session-hour')?.textContent || spans[0]?.textContent);
+      const className = clean(line.querySelector('.cahier-session-subject')?.textContent || line.querySelector('.cahier-session-name')?.textContent || spans[1]?.textContent);
       let durationNode = line.querySelector('.cahier-session-duration');
+      // Le rendu React contient déjà les minutes de la cellule. En cas de clé
+      // traduite/non trouvée, on les conserve au lieu de revenir à « 1h ».
+      const duration = durations.get(`${day}|${hour}|${className}`) || durationNode?.textContent || '40 د';
       if (!durationNode) {
         durationNode = document.createElement('span');
         durationNode.className = 'cahier-session-duration';

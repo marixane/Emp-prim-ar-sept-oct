@@ -1,0 +1,1638 @@
+/* La deuxième page est volontairement exclue : son emploi du temps reste inchangé. */
+body.emp-primaire-ar .clean-cahier-shell {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+body.emp-primaire-ar .clean-cahier-shell .cahier-preview-zone {
+  gap: 16px !important;
+}
+
+body.emp-primaire-ar .clean-cahier-shell .cahier-preview-zone .a4-page,
+body.emp-primaire-ar .clean-cahier-shell .cahier-preview-zone .cahier-page {
+  margin-bottom: 0 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page {
+  direction: rtl !important;
+  text-align: right;
+  font-family: "Noto Kufi Arabic", "Noto Sans Arabic", Arial, sans-serif;
+  /* Marge de reliure arabe : grand espace à droite, petit espace à gauche. */
+  padding-right: 100px !important;
+  padding-left: 22px !important;
+}
+
+/* La page 2 garde son contenu intact, mais sa marge est également placée à droite. */
+body.emp-primaire-ar .a4-page.emp-ar-excluded-page {
+  padding-right: 100px !important;
+  padding-left: 22px !important;
+}
+
+/* Cette page avait une marge spéciale de 125 px : on l'inverse sans la réduire. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.cahier-exams-groups-page {
+  padding-right: 125px !important;
+  padding-left: 21px !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-entry {
+  direction: rtl !important;
+  border-left: 0 !important;
+  border-right: 6px solid var(--homework-color) !important;
+}
+
+/* La grande marge du cahier passe de la gauche vers la droite. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page {
+  /* Réserve une vraie zone blanche au-dessus de la barre de progression. */
+  padding-top: 82px !important;
+  /* La fiche gagne 40 px vers la droite, attribués notamment aux pointillés. */
+  /* 15 px blancs supplémentaires sur le bord droit de la fiche. */
+  padding-right: 75px !important;
+  padding-left: 22px !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page > div:first-child {
+  top: 24px !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page > .homework-entry {
+  position: relative !important;
+  top: 0 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-date {
+  position: relative !important;
+  direction: rtl !important;
+  text-align: right !important;
+  unicode-bidi: plaintext;
+  padding-right: 38px !important;
+  padding-left: 12px !important;
+  /* Jour et date réduits à 80 % de leur taille précédente. */
+  font-size: 20px !important;
+}
+
+/* Indication automatique matin/soir à l'extrême gauche du titre, dans la
+   couleur propre à la journée. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-date::before {
+  content: attr(data-day-period) !important;
+  position: absolute !important;
+  left: 18px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: inherit !important;
+  font-family: inherit !important;
+  font-size: 1em !important;
+  font-weight: inherit !important;
+  line-height: 1 !important;
+  direction: rtl !important;
+  white-space: nowrap !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-body,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-subject,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-text {
+  direction: rtl !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-text {
+  text-align: right !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-subject {
+  border-right: 0 !important;
+  border-left: 1px solid #e6e6e6 !important;
+}
+
+/* Textes des vacances et événements : un peu plus grands sans agrandir les cases. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-entry.cahier-extra-holiday-entry .homework-text,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-entry.cahier-exam-entry .homework-text {
+  font-size: 28px !important;
+  line-height: 1.35 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-entry.cahier-extra-holiday-entry .homework-subject > div > span:first-child,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-entry.cahier-exam-entry .homework-subject > div > span:first-child {
+  font-size: 21px !important;
+}
+
+/* Séances : heure lisible et étendue jusqu'au bord droit, durée réelle en minutes. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-row {
+  grid-template-columns: minmax(82px, 1fr) minmax(0, 3.9fr) !important;
+  width: calc(100% - 2px) !important;
+  max-width: calc(100% - 2px) !important;
+  /* Laisse une vraie respiration autour des rubans, même avec neuf séances. */
+  height: 34px !important;
+  max-height: calc(100% - 14px) !important;
+  margin-inline: 1px !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-hour {
+  justify-self: start !important;
+  align-self: center !important;
+  width: 68% !important;
+  min-width: 68% !important;
+  max-width: 68% !important;
+  height: 26px !important;
+  padding: 0 5px !important;
+  box-sizing: border-box !important;
+  border-radius: 10px !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+  transform: translate(5px, 2px) !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-details {
+  grid-template-columns: minmax(0, 1fr) 44px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-left: 0 !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-name {
+  display: grid !important;
+  grid-template-columns: 28px minmax(0, 1fr) !important;
+  align-items: center !important;
+  justify-content: stretch !important;
+  gap: 0 !important;
+  direction: ltr !important;
+  overflow: visible !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-sequence {
+  grid-column: 1 !important;
+  justify-self: center !important;
+  width: 28px !important;
+  min-width: 28px !important;
+  height: 28px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-right: 1px solid rgba(63, 64, 80, 0.22) !important;
+  box-sizing: border-box !important;
+  transform: translateX(-11px) !important;
+  position: relative !important;
+  z-index: 30 !important;
+  flex: 0 0 28px !important;
+  background: color-mix(in srgb, var(--homework-color) 8%, white 92%) !important;
+  display: inline-flex !important;
+  flex-direction: row-reverse !important;
+  align-items: center !important;
+  justify-content: center !important;
+  direction: ltr !important;
+  gap: 0 !important;
+  font-size: 15px !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-sequence-prefix,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-sequence-number {
+  display: inline-block !important;
+  flex: 0 0 auto !important;
+  font: inherit !important;
+  line-height: 1 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* La zone du nom de matière seule utilise toute la largeur disponible entre
+   le numéro de séance et le cadre horaire. Le contour général reste inchangé. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-subject {
+  justify-self: stretch !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding-inline: 0 !important;
+}
+
+/* La colonne horaire ne conserve plus une réserve vide autour du bouton :
+   l'espace récupéré appartient directement au nom de la matière. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-row {
+  grid-template-columns: 60px minmax(0, 1fr) !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-hour {
+  justify-self: stretch !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  transform: translate(3px, 2px) !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-details {
+  gap: 0 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-sequence-prefix {
+  font-size: 17px !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-sequence-number {
+  font-family: Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  color: #343545 !important;
+  position: relative !important;
+  z-index: 31 !important;
+  align-self: center !important;
+  transform: none !important;
+  transform-origin: center !important;
+  text-rendering: geometricPrecision !important;
+  font-variant-numeric: lining-nums tabular-nums !important;
+}
+
+/* Le numéro de séance et sa durée utilisent strictement la même écriture. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-sequence-number,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-duration {
+  font-family: Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+  line-height: 1 !important;
+  font-variant-numeric: lining-nums tabular-nums !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-subject {
+  grid-column: 2 !important;
+  justify-self: stretch !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 3px !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+  font-size: 13px !important;
+  position: relative !important;
+  z-index: 1 !important;
+  overflow: hidden !important;
+}
+
+/* Les intitulés français disposent d'une écriture plus compacte. Le retour à
+   la ligne explicite de « Projet de classe » est conservé dans le PDF. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-subject.cahier-session-subject-fr {
+  font-family: Arial, sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 900 !important;
+  line-height: 1.05 !important;
+  text-transform: none !important;
+  white-space: pre-line !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-levels-rail {
+  position: absolute !important;
+  /* Le rail doit rester au-dessus des rubans de pause afin que les deux
+     extrémités arrondies de chaque niveau restent entièrement visibles. */
+  z-index: 8 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  display: grid !important;
+  grid-template-rows: var(--session-grid-template) !important;
+  gap: 0 !important;
+  width: 30px !important;
+  padding: 1px 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  color: #3f4050 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-level-rail-item {
+  position: relative !important;
+  z-index: 9 !important;
+  display: flex !important;
+  align-self: stretch !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  border: 2px solid var(--homework-color) !important;
+  border-radius: 11px !important;
+  background: color-mix(in srgb, var(--homework-color) 8%, white 92%) !important;
+}
+
+/* Le ruban ne doit pas masquer le haut arrondi du niveau qui le suit. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-level-rail-item + .cahier-session-level-rail-item {
+  margin-top: 0 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-level-rail-item > span {
+  display: block !important;
+  flex: 0 0 auto !important;
+  color: #3f4050 !important;
+  font-family: Tahoma, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  width: auto !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  direction: rtl !important;
+  white-space: nowrap !important;
+  transform: rotate(-90deg) !important;
+  transform-origin: center !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-duration {
+  width: 44px !important;
+  min-width: 44px !important;
+  font-size: 16px !important;
+  direction: rtl !important;
+  text-align: center !important;
+  border-left: 0 !important;
+  border-right: 1px solid rgba(63, 64, 80, 0.22) !important;
+  justify-content: flex-start !important;
+  padding-left: 0 !important;
+  transform: translateX(-11px) !important;
+  position: relative !important;
+  z-index: 13 !important;
+  flex: 0 0 44px !important;
+  background: color-mix(in srgb, var(--homework-color) 8%, white 92%) !important;
+}
+
+/* Colonne des séances réduite à 80 % de sa largeur précédente ; tout l'espace
+   récupéré est attribué à la zone des trois lignes pointillées. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page .homework-content {
+  grid-template-columns: minmax(0, 1.04fr) minmax(0, 1.96fr) !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .homework-subject.cahier-session-list,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .homework-text.cahier-session-notes {
+  grid-template-rows: var(--session-grid-template) !important;
+}
+
+/* Chaque séance possède une zone de pointillés de même hauteur, exactement en face. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .homework-entry:not(.cahier-extra-holiday-entry):not(.cahier-exam-entry)
+  .homework-text.cahier-session-notes {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  /* Utilise exactement les mêmes rangées que les matières, pauses comprises. */
+  grid-template-rows: var(--session-grid-template) !important;
+  justify-items: stretch !important;
+  align-items: stretch !important;
+  align-content: stretch !important;
+  width: 100% !important;
+  /* Même hauteur que la colonne des matières : les trois pointillés de chaque
+     séance restent répartis dans leur propre étage sur toute la journée. */
+  height: 925px !important;
+  min-height: 925px !important;
+  max-height: 925px !important;
+  /* Les pointillés s'arrêtent 15 px plus tôt avant les cadres verticaux. */
+  padding: 0 16px 0 45px !important;
+  box-sizing: border-box !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-note-row {
+  position: relative !important;
+  display: block !important;
+  justify-self: stretch !important;
+  align-self: stretch !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-dot-line {
+  position: absolute !important;
+  display: none !important;
+  left: 0 !important;
+  right: 0 !important;
+  transform: translateY(-50%) !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Deux lignes distinctes et régulièrement réparties devant chaque matière. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-dot-line:nth-child(1) {
+  display: block !important;
+  top: 36% !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-dot-line:nth-child(2) {
+  display: block !important;
+  top: 72% !important;
+}
+
+/* Libellés pédagogiques placés à droite de chacune des deux lignes. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-dot-line::before {
+  position: absolute !important;
+  right: 0 !important;
+  top: 50% !important;
+  z-index: 2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 18px !important;
+  padding: 0 4px 1px 8px !important;
+  transform: translateY(-50%) !important;
+  background: #fff !important;
+  color: #8b8f99 !important;
+  font-family: Tahoma, Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  direction: rtl !important;
+  white-space: nowrap !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-dot-line:nth-child(1)::before {
+  content: "عناصر الدرس :" !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-dot-line:nth-child(2)::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Un trait horizontal fin sépare chaque matière avec ses deux lignes, sur toute
+   la largeur de la fiche, dans le navigateur comme dans le PDF. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-separators {
+  display: block !important;
+  display: grid !important;
+  grid-template-rows: var(--session-grid-template) !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-separators > span {
+  position: relative !important;
+  align-self: start !important;
+  top: auto !important;
+  height: 1px !important;
+  background: rgba(63, 64, 80, 0.14) !important;
+  transform: none !important;
+}
+
+/* Pause pédagogique affichée entre les séances concernées du cahier. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-break-markers {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 6 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+  display: grid !important;
+  grid-template-rows: var(--session-grid-template) !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-break-markers > span {
+  position: relative !important;
+  left: 0 !important;
+  right: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  /* Ruban aminci pour dégager les matières placées juste avant et juste après. */
+  height: 28px !important;
+  padding: 0 42px !important;
+  box-sizing: border-box !important;
+  align-self: stretch !important;
+  width: 100% !important;
+  transform: none !important;
+  border-top: 1.5px solid rgba(157, 23, 77, 0.48) !important;
+  border-bottom: 1.5px solid rgba(157, 23, 77, 0.48) !important;
+  background: linear-gradient(90deg, #fce7f3, #fbcfe8, #fce7f3) !important;
+  color: #9d174d !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  direction: rtl !important;
+  white-space: nowrap !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-break-markers > span::before {
+  content: "" !important;
+  position: absolute !important;
+  right: 14px !important;
+  top: 50% !important;
+  width: 0 !important;
+  height: 0 !important;
+  transform: translateY(-50%) !important;
+  border-top: 4px solid transparent !important;
+  border-bottom: 4px solid transparent !important;
+  border-left: 7px solid #9d174d !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-break-markers > .cahier-session-break-marker-midday {
+  border-top-color: rgba(21, 94, 117, 0.48) !important;
+  border-bottom-color: rgba(21, 94, 117, 0.48) !important;
+  background: linear-gradient(90deg, #cffafe, #ecfeff, #cffafe) !important;
+  color: #155e75 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-session-break-markers > .cahier-session-break-marker-midday::before {
+  border-left-color: #155e75 !important;
+}
+
+/* Une seule journée par feuille : elle occupe toute la hauteur utile de l'A4. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page {
+  --cahier-entry-height: 1000px !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page .homework-entry {
+  height: 1000px !important;
+  min-height: 1000px !important;
+  max-height: 1000px !important;
+  grid-template-rows: 75px 925px !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page .homework-content,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page .homework-subject,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page .homework-text,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page .homework-text.cahier-session-notes {
+  height: 925px !important;
+  min-height: 925px !important;
+  max-height: 925px !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-midyear-holiday-entry {
+  height: 1000px !important;
+  min-height: 1000px !important;
+  max-height: 1000px !important;
+  grid-template-rows: 75px 925px !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page
+  .cahier-midyear-holiday-content {
+  height: 925px !important;
+  min-height: 925px !important;
+  max-height: 925px !important;
+}
+
+/* Emploi du temps primaire : dimensions fixes sur toute la hauteur utile de la page. */
+body.emp-primaire-ar .a4-page.primary-timetable-page {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page > .cahier-header {
+  transform: translate(20px, -15px) !important;
+}
+
+/* Descendre uniquement le titre sans déplacer l'emploi du temps. */
+body.emp-primaire-ar .a4-page.primary-timetable-page > .cahier-header > h2 {
+  transform: translateY(10px) scale(0.7) !important;
+  transform-origin: center center !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-layout {
+  top: -25px !important;
+  width: calc(100% + 20px) !important;
+  height: 991px !important;
+  min-height: 991px !important;
+  max-height: 991px !important;
+  margin: 0 !important;
+  align-items: stretch !important;
+  transform: translateX(20px) !important;
+}
+
+/* Fermeture nette et continue du bas du tableau. Cette bordure indépendante
+   reste visible même lorsque les cellules internes utilisent des hauteurs fixes. */
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-layout::after {
+  content: '' !important;
+  position: absolute !important;
+  z-index: 12 !important;
+  right: 42px !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  height: 3px !important;
+  border-radius: 0 0 0 14px !important;
+  background: #334155 !important;
+  pointer-events: none !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table {
+  width: calc(100% - 42px) !important;
+  height: 991px !important;
+  min-height: 991px !important;
+  max-height: 991px !important;
+  table-layout: fixed !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-period-side-column {
+  height: 991px !important;
+  min-height: 991px !important;
+  max-height: 991px !important;
+  grid-template-rows: 72px 403px 424px !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table thead tr:first-child th {
+  height: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-sequence-row th {
+  height: 14px !important;
+  min-height: 14px !important;
+  max-height: 14px !important;
+  line-height: 14px !important;
+}
+
+/* Traits verticaux continus de la colonne « الأيام / horaires ».
+   Des ombres intérieures conservent exactement la largeur actuelle du tableau. */
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table thead th.primary-time-heading,
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table thead tr.primary-level-row > th:first-child,
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table th.primary-period-time-cell {
+  box-shadow:
+    inset 1.5px 0 0 rgba(51, 65, 85, 0.72),
+    inset -1.5px 0 0 rgba(51, 65, 85, 0.72) !important;
+}
+
+/* Les deux niveaux sont immédiatement reconnaissables par leur propre couleur. */
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table thead tr.primary-level-row:nth-child(2) > th {
+  background: #fef3c7 !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table thead tr.primary-level-row:nth-child(3) > th {
+  background: #fed7aa !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table thead tr.primary-level-row .primary-level-select {
+  background: transparent !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-sequence-heading {
+  height: 28px !important;
+  min-height: 28px !important;
+  max-height: 28px !important;
+  padding: 0 2px !important;
+  font-size: 8px !important;
+  line-height: 1.05 !important;
+  white-space: normal !important;
+  vertical-align: middle !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-level-select {
+  height: 14px !important;
+  padding: 0 9px 0 1px !important;
+  font-size: 7px !important;
+  line-height: 1 !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-sequence-number {
+  font-size: 10px !important;
+  line-height: 14px !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-section-level-select {
+  width: calc(100% - 6px) !important;
+  height: 15px !important;
+  min-height: 15px !important;
+  padding: 1px 13px 1px 2px !important;
+  font-size: 7px !important;
+  line-height: 1 !important;
+}
+
+/* La liste commence par « - ». Une fois choisi, chaque niveau reprend une
+   teinte propre et constante dans toutes les colonnes de jours. */
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table .primary-section-level-select[data-level-tone="0"] {
+  background: rgba(255, 255, 255, 0.78) !important;
+  border-color: rgba(100, 116, 139, 0.35) !important;
+  color: #64748b !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table .primary-section-level-select[data-level-tone="1"] {
+  background: #fef3c7 !important;
+  border-color: #d97706 !important;
+  color: #7c2d12 !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table .primary-section-level-select[data-level-tone="2"] {
+  background: #fed7aa !important;
+  border-color: #ea580c !important;
+  color: #7c2d12 !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table .primary-section-level-select[data-level-tone="3"] {
+  background: #dcfce7 !important;
+  border-color: #16a34a !important;
+  color: #14532d !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table .primary-section-level-select[data-level-tone="4"] {
+  background: #dbeafe !important;
+  border-color: #2563eb !important;
+  color: #1e3a8a !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table .primary-section-level-select[data-level-tone="5"] {
+  background: #f3e8ff !important;
+  border-color: #9333ea !important;
+  color: #581c87 !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table .primary-section-level-select[data-level-tone="6"] {
+  background: #fce7f3 !important;
+  border-color: #db2777 !important;
+  color: #831843 !important;
+}
+
+@media print {
+  body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-section-level-select {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    padding: 1px 2px !important;
+    background-image: none !important;
+  }
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-time-row > th,
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-time-row > td {
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-marker-row td {
+  height: 18px !important;
+  min-height: 18px !important;
+  max-height: 18px !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-marker-duration-control {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  width: 100% !important;
+  height: 16px !important;
+  font: inherit !important;
+  line-height: 16px !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-marker-duration-control input {
+  box-sizing: border-box !important;
+  width: 30px !important;
+  height: 16px !important;
+  min-height: 16px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-bottom: 1px dotted currentColor !important;
+  outline: 0 !important;
+  background: rgba(255, 255, 255, 0.45) !important;
+  color: inherit !important;
+  font: inherit !important;
+  line-height: 16px !important;
+  text-align: center !important;
+  direction: ltr !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-period-duration {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 42px !important;
+  padding: 2px 5px !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  color: #1e3a8a !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  direction: rtl !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-step-time-control {
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: 18px minmax(0, 1fr) 18px !important;
+  align-items: center !important;
+  gap: 3px !important;
+  width: 100% !important;
+  direction: ltr !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-step-time-control input {
+  width: 100% !important;
+  min-width: 0 !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-step-time-control button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  width: 18px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid rgba(30, 58, 138, 0.28) !important;
+  border-radius: 5px !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  color: #1e3a8a !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-step-time-control button:hover {
+  background: #ffffff !important;
+  border-color: #1e3a8a !important;
+}
+
+@media print {
+  body.emp-primaire-ar .a4-page.primary-timetable-page .primary-step-time-control {
+    display: block !important;
+  }
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .timetable-cell-content,
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .timetable-class-input {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+  resize: none !important;
+}
+
+/* Le nom saisi reste exactement au centre, même dans une cellule étirée. */
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .timetable-class-input {
+  display: block !important;
+  align-self: stretch !important;
+  justify-self: stretch !important;
+  margin: 0 !important;
+  padding: 0 4px !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  line-height: 1.1 !important;
+  text-align: center !important;
+  direction: auto !important;
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+/* Verrouillage définitif : le contenu saisi ne peut modifier ni la largeur
+   des colonnes, ni la hauteur des lignes de l'emploi du temps. */
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-layout {
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table {
+  box-sizing: border-box !important;
+  flex: 0 0 calc(100% - 42px) !important;
+  width: calc(100% - 42px) !important;
+  min-width: calc(100% - 42px) !important;
+  max-width: calc(100% - 42px) !important;
+  table-layout: fixed !important;
+  contain: layout paint !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table col.primary-fixed-time-column {
+  width: 14% !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table col.primary-fixed-day-column {
+  width: 14.3333% !important;
+}
+
+/* Colonne horaire plus compacte : l'espace libéré revient aux six journées,
+   sans modifier la largeur ni la position extérieure du tableau. */
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table col.primary-fixed-time-column {
+  width: 9% !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table col.primary-fixed-day-column {
+  width: 15.1667% !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table .primary-time-heading,
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table .primary-time-cell {
+  width: auto !important;
+  min-width: 0 !important;
+}
+
+/* Début : heure puis boutons en dessous. Fin : boutons puis heure en dessous. */
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-period-time-range > .primary-step-time-control {
+  grid-template-columns: 22px 22px !important;
+  grid-template-rows: 22px 18px !important;
+  justify-content: center !important;
+  gap: 2px 3px !important;
+  width: 100% !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-period-time-range > .primary-step-time-control:first-child {
+  grid-template-areas:
+    "time time"
+    "minus plus" !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-period-time-range > .primary-step-time-control:last-child {
+  grid-template-areas:
+    "minus plus"
+    "time time" !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-period-time-range > .primary-step-time-control input {
+  grid-area: time !important;
+  width: 44px !important;
+  height: 22px !important;
+  padding: 1px !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-period-time-range > .primary-step-time-control button:first-of-type {
+  grid-area: minus !important;
+  justify-self: center !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-period-time-range > .primary-step-time-control button:last-of-type {
+  grid-area: plus !important;
+  justify-self: center !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table th,
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table td {
+  min-width: 0 !important;
+  max-width: 0 !important;
+  overflow: hidden !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table tr.primary-time-row {
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-time-row > td {
+  position: relative !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  overflow: hidden !important;
+}
+
+/* Ferme visuellement le bas du tableau, même avec les lignes à hauteur fixe. */
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table tbody:last-of-type tr:last-child > th,
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-timetable-table tbody:last-of-type tr:last-child > td {
+  border-bottom: 2px solid #334155 !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-time-row > td > .timetable-cell-content {
+  position: absolute !important;
+  inset: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  contain: layout paint !important;
+}
+
+/* Une bande de niveau est réservée dans la première séance de chaque jour,
+   sans réduire les 48 px consacrés à la matière. */
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table tr.primary-time-row.primary-section-first-row {
+  height: 66px !important;
+  min-height: 66px !important;
+  max-height: 66px !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-section-first-row > td {
+  height: 66px !important;
+  min-height: 66px !important;
+  max-height: 66px !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-section-first-cell > .timetable-cell-content {
+  top: 18px !important;
+  bottom: 0 !important;
+  height: auto !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-period-side-column {
+  box-sizing: border-box !important;
+  grid-template-rows: 72px 463px 456px !important;
+  align-content: stretch !important;
+}
+
+/* Chaque période possède désormais son cadre complet et reste strictement
+   limitée à sa propre zone, sans trait manquant ni chevauchement. */
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-period-side-column > .primary-period-side-spacer,
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-period-side-column > .primary-period-side-label {
+  box-sizing: border-box !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  box-shadow:
+    inset 1.5px 0 0 rgba(51, 65, 85, 0.72),
+    inset -1.5px 0 0 rgba(51, 65, 85, 0.72),
+    inset 0 1.5px 0 rgba(51, 65, 85, 0.72),
+    inset 0 -1.5px 0 rgba(51, 65, 85, 0.72) !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-period-side-column > .primary-period-side-morning {
+  border-top: 0 !important;
+  border-bottom: 2px solid #334155 !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-period-side-column > .primary-period-side-afternoon {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .timetable-class-input {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  field-sizing: fixed !important;
+  padding-top: 2px !important;
+  padding-bottom: 0 !important;
+}
+
+/* La matière et les métadonnées occupent deux zones qui ne se chevauchent jamais. */
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table
+  .timetable-cell-content.colored-cell > .timetable-subject-select {
+  top: 10px !important;
+  bottom: auto !important;
+  height: calc(100% - 24px) !important;
+  max-height: calc(100% - 24px) !important;
+  align-self: auto !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table
+  .timetable-cell-content.colored-cell > .pdf-selected-subject {
+  top: 0 !important;
+  bottom: auto !important;
+  height: calc(100% - 14px) !important;
+  max-height: calc(100% - 14px) !important;
+  align-self: auto !important;
+}
+
+/* Le rendu PDF reçoit la même structure compacte que l'emploi affiché à l'écran. */
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table .primary-marker-row td {
+  box-sizing: border-box !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  max-height: 18px !important;
+  padding: 1px 10px !important;
+  overflow: hidden !important;
+  vertical-align: middle !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-marker-duration-control {
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-flow: row nowrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  width: 100% !important;
+  height: 16px !important;
+  min-height: 16px !important;
+  max-height: 16px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 16px !important;
+  white-space: nowrap !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-marker-duration-control > span {
+  display: inline !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  height: 16px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 16px !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-marker-duration-control > input[type="number"] {
+  box-sizing: border-box !important;
+  display: inline-block !important;
+  flex: 0 0 30px !important;
+  width: 30px !important;
+  min-width: 30px !important;
+  max-width: 30px !important;
+  height: 16px !important;
+  min-height: 16px !important;
+  max-height: 16px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-bottom: 1px dotted currentColor !important;
+  border-radius: 0 !important;
+  background: rgba(255, 255, 255, 0.45) !important;
+  color: inherit !important;
+  font: inherit !important;
+  line-height: 16px !important;
+  text-align: center !important;
+  appearance: textfield !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page .total-hours-control {
+  position: absolute !important;
+  top: auto !important;
+  bottom: 18px !important;
+  left: 28px !important;
+  right: auto !important;
+  width: fit-content !important;
+  margin: 0 !important;
+  transform: none !important;
+  z-index: 5 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.cahier-exams-groups-page,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.holidays-page,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.cover-page-only,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-cover-page {
+  direction: rtl !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page table {
+  direction: rtl !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page th,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page td {
+  text-align: right !important;
+}
+
+/* Tableaux récapitulatifs : contenu lisible à droite, titres de colonnes centrés. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.holidays-page thead th,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.cahier-exams-groups-page thead th {
+  text-align: center !important;
+  font-size: 15px !important;
+  line-height: 1.25 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.holidays-page tbody td {
+  text-align: right !important;
+  font-size: 15px !important;
+  line-height: 1.3 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.holidays-page tbody td span {
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.holidays-page > div:last-child {
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.cahier-exams-groups-page tbody td {
+  text-align: right !important;
+  font-size: 17px !important;
+  line-height: 1.35 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-entry.cahier-midyear-holiday-entry {
+  border-left: 0 !important;
+  border-right: 8px solid #16a34a !important;
+}
+
+/* --------------------------------------------------------------------------
+   Vacances et événements — thème moderne. Le bandeau du jour reste intact.
+   -------------------------------------------------------------------------- */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-extra-holiday-entry:not(.cahier-midyear-holiday-entry),
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-exam-entry {
+  --modern-event-accent: #f97316;
+  --modern-event-accent-dark: #9a3412;
+  --modern-event-accent-soft: #ffedd5;
+  --modern-event-surface: #fffaf5;
+  background: linear-gradient(150deg, #ffffff 0%, var(--modern-event-surface) 100%) !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-exam-entry {
+  --modern-event-accent: #2563eb;
+  --modern-event-accent-dark: #1e3a8a;
+  --modern-event-accent-soft: #dbeafe;
+  --modern-event-surface: #f4f8ff;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-extra-holiday-entry:not(.cahier-midyear-holiday-entry) .homework-content,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-exam-entry .homework-content {
+  position: relative !important;
+  isolation: isolate !important;
+  direction: ltr !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 214px !important;
+  align-items: stretch !important;
+  gap: 22px !important;
+  box-sizing: border-box !important;
+  width: calc(100% - 34px) !important;
+  height: calc(100% - 34px) !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 17px !important;
+  padding: 24px !important;
+  overflow: hidden !important;
+  border: 1px solid color-mix(in srgb, var(--modern-event-accent) 22%, transparent) !important;
+  border-radius: 30px !important;
+  background:
+    radial-gradient(circle at 8% 12%, color-mix(in srgb, var(--modern-event-accent) 12%, transparent) 0 72px, transparent 73px),
+    radial-gradient(circle at 94% 88%, color-mix(in srgb, var(--modern-event-accent) 9%, transparent) 0 110px, transparent 111px),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.96), var(--modern-event-surface)) !important;
+  box-shadow: 0 16px 42px color-mix(in srgb, var(--modern-event-accent-dark) 12%, transparent) !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-extra-holiday-entry:not(.cahier-midyear-holiday-entry) .homework-content::before,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-exam-entry .homework-content::before {
+  content: "" !important;
+  position: absolute !important;
+  z-index: -1 !important;
+  top: -70px !important;
+  left: -42px !important;
+  width: 210px !important;
+  height: 210px !important;
+  border-radius: 50% !important;
+  border: 34px solid color-mix(in srgb, var(--modern-event-accent) 7%, transparent) !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-extra-holiday-entry:not(.cahier-midyear-holiday-entry) .homework-subject,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-exam-entry .homework-subject {
+  position: relative !important;
+  grid-column: 2 !important;
+  direction: rtl !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 96px 18px 28px !important;
+  overflow: hidden !important;
+  border: 1px solid color-mix(in srgb, var(--modern-event-accent) 28%, transparent) !important;
+  border-radius: 26px !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--modern-event-accent-dark) 10%, transparent) !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-extra-holiday-entry:not(.cahier-midyear-holiday-entry) .homework-subject::before,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-exam-entry .homework-subject::before {
+  content: "✦" !important;
+  position: absolute !important;
+  top: 28px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 54px !important;
+  height: 54px !important;
+  border-radius: 18px !important;
+  color: #ffffff !important;
+  background: linear-gradient(145deg, var(--modern-event-accent), var(--modern-event-accent-dark)) !important;
+  box-shadow: 0 9px 18px color-mix(in srgb, var(--modern-event-accent-dark) 24%, transparent) !important;
+  font: 900 27px/1 Arial, sans-serif !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-extra-holiday-entry:not(.cahier-midyear-holiday-entry) .homework-subject .cahier-session-row,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-exam-entry .homework-subject .cahier-session-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-extra-holiday-entry:not(.cahier-midyear-holiday-entry) .homework-subject .cahier-session-hour,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-exam-entry .homework-subject .cahier-session-hour {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 132px !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 54px !important;
+  margin: 0 !important;
+  padding: 11px 24px !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, var(--modern-event-accent), var(--modern-event-accent-dark)) !important;
+  box-shadow: 0 9px 22px color-mix(in srgb, var(--modern-event-accent-dark) 20%, transparent) !important;
+  font-family: "Noto Kufi Arabic", "Noto Sans Arabic", Arial, sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  white-space: normal !important;
+  text-align: center !important;
+  text-overflow: clip !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-extra-holiday-entry:not(.cahier-midyear-holiday-entry) .homework-text,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-exam-entry .homework-text {
+  position: relative !important;
+  grid-column: 1 !important;
+  direction: rtl !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 72px 54px !important;
+  overflow: hidden !important;
+  border: 1px solid color-mix(in srgb, var(--modern-event-accent) 24%, transparent) !important;
+  border-radius: 28px !important;
+  outline: none !important;
+  color: var(--modern-event-accent-dark) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.96), color-mix(in srgb, var(--modern-event-accent-soft) 58%, white)) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72),
+    0 12px 34px color-mix(in srgb, var(--modern-event-accent-dark) 11%, transparent) !important;
+  font-family: "Noto Kufi Arabic", "Noto Sans Arabic", Arial, sans-serif !important;
+  font-size: 36px !important;
+  font-weight: 900 !important;
+  line-height: 1.55 !important;
+  letter-spacing: 0 !important;
+  text-align: center !important;
+  text-wrap: balance !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-extra-holiday-entry:not(.cahier-midyear-holiday-entry) .homework-text::before,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .homework-entry.cahier-exam-entry .homework-text::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 28px !important;
+  right: 32px !important;
+  width: 70px !important;
+  height: 7px !important;
+  border-radius: 999px !important;
+  background: linear-gradient(90deg, var(--modern-event-accent), transparent) !important;
+}
+
+@media print {
+  body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+    .homework-entry.cahier-extra-holiday-entry:not(.cahier-midyear-holiday-entry) .homework-content,
+  body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+    .homework-entry.cahier-exam-entry .homework-content {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+body.emp-primaire-ar > #root > button,
+body.emp-primaire-ar .pdf-actions,
+body.emp-primaire-ar .pdf-buttons {
+  direction: rtl;
+}
+
+@media print {
+  body.emp-primaire-ar .a4-page.emp-ar-translated-page .homework-entry {
+    border-left: 0 !important;
+    border-right: 6px solid var(--homework-color) !important;
+  }
+}
+
+/* Doit rester après tous les verrouillages de cellules : la liste du niveau
+   occupe sa propre bande et les 48 px de la séance commencent juste dessous. */
+body.emp-primaire-ar .a4-page.primary-timetable-page .primary-timetable-table
+  td.primary-section-first-cell > .timetable-cell-content {
+  top: 18px !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  height: auto !important;
+}
+
+/* Durée des séparations : texte net (5 د, 15 د…), sans ligne pointillée. */
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-marker-duration-control > input[type="number"] {
+  flex: 0 0 24px !important;
+  width: 24px !important;
+  min-width: 24px !important;
+  max-width: 24px !important;
+  border: 0 !important;
+  border-bottom: 0 !important;
+  background: transparent !important;
+  color: inherit !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  line-height: 16px !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-marker-duration-control > span:last-child {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  line-height: 16px !important;
+}
+
+body.emp-primaire-ar .a4-page.primary-timetable-page
+  .primary-marker-duration-control > .primary-marker-duration-value {
+  display: inline !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: inherit !important;
+  font: inherit !important;
+  line-height: 16px !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+/* Concordance web/PDF des fiches de séance : le contenu interne ne peut
+   jamais agrandir le rectangle. Les intitulés longs sont compactés de façon
+   identique avant l'impression. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-row,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-details,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-name {
+  min-height: 0 !important;
+  max-height: 100% !important;
+  box-sizing: border-box !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-details,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page .cahier-session-name {
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-name:has(.cahier-session-subject-medium),
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-name:has(.cahier-session-subject-long) {
+  grid-template-columns: 18px minmax(0, 1fr) !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-subject.cahier-session-subject-medium,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-subject.cahier-session-subject-long {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  text-align: center !important;
+  white-space: normal !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  align-self: center !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-subject.cahier-session-subject-medium {
+  -webkit-line-clamp: 2 !important;
+  max-height: 22px !important;
+  font-size: 10px !important;
+  line-height: 1.05 !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-subject.cahier-session-subject-long {
+  -webkit-line-clamp: 3 !important;
+  max-height: 27px !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+  padding-inline: 1px !important;
+}
+
+/* Le petit numéro de séance doit rester lisible, même devant un intitulé long.
+   On écarte très légèrement ses deux séparateurs et on annule l'ancien
+   décalage négatif qui le faisait sortir de la zone masquée en PDF. */
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-name,
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-name:has(.cahier-session-subject-medium),
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-name:has(.cahier-session-subject-long) {
+  grid-template-columns: 20px minmax(0, 1fr) !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-sequence {
+  width: 18px !important;
+  min-width: 18px !important;
+  transform: none !important;
+  overflow: visible !important;
+}
+
+body.emp-primaire-ar .a4-page.emp-ar-translated-page.homework-page
+  .cahier-session-sequence-number {
+  display: inline-flex !important;
+  min-width: 11px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.cahier-progress-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -80px;
+  width: 82px;
+  border-radius: 12px 0 0 12px;
+  background: var(--group-color);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.cahier-progress-header {
+  isolation: isolate;
+}

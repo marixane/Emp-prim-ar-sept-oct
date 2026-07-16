@@ -1,8 +1,13 @@
 const PDF_BUTTON_ID = 'cahier-pdf-button-stable';
+const PDF_PREVIEW_BUTTON_ID = 'cahier-pdf-preview-stable';
 const A4_WIDTH = '210mm';
 const A4_HEIGHT = '297mm';
 const EXIT_TEXT = 'Signature du Procès-verbal de sortie';
-const EXIT_DATE = 'SAMEDI 10/07';
+const EXIT_DATE = 'SAMEDI 10/07/2027';
+const PDF_FILENAME = 'Cahier-de-texte-2026-2027.pdf';
+const LEGACY_COVER_SELECTOR = '#cahier-main-cover-page, .cahier-main-cover-page, [data-force-first-page="true"]';
+const COMPACT_PDF_HIDDEN_HOUR_START = 4;
+const COMPACT_PDF_HIDDEN_HOUR_END = 6;
 
 const EXPORT_CSS = `
   @page { size: ${A4_WIDTH} ${A4_HEIGHT}; margin: 0; }
@@ -28,13 +33,36 @@ const EXPORT_CSS = `
     page-break-after: always !important;
   }
   .a4-page:last-child, .cahier-page:last-child { break-after: auto !important; page-break-after: auto !important; }
-  #${PDF_BUTTON_ID}, .app-tabs, .no-print, button { display: none !important; }
-  .homework-subject > div { grid-template-columns: 52px 1fr 34px !important; }
-  .cahier-session-duration { display: inline-block !important; visibility: visible !important; opacity: 1 !important; color: rgba(55,65,81,.9) !important; font-size: 10px !important; font-weight: 900 !important; text-align: right !important; white-space: nowrap !important; }
+  #${PDF_BUTTON_ID}, #${PDF_PREVIEW_BUTTON_ID}, .app-tabs, .no-print, button { display: none !important; }
+  .homework-date { font-size: 28px !important; border-bottom: 2px dotted rgba(63,64,80,.5) !important; padding-bottom: 8px !important; }
+  /* Ne pas redéfinir la grille des séances ici : le PDF conserve exactement
+     les dimensions calculées par les styles web (texte long compris). */
 `;
 
 const clean = (value) => String(value || '').trim().toUpperCase().replace(/\s+/g, ' ');
-const durationText = (span) => `${Math.max(Number(span) || 1, 1)}h`;
+const durationText = (minutes) => `${Math.min(Math.max(Number(minutes) || 40, 1), 240)} د`;
+
+const addSchoolYear = (text) => {
+  const normalized = String(text || '')
+    .replace(/(\d{4}\/\d{2}\/\d{2})(?:\/(?:2026|2027))+/g, '$1');
+  if (/\d{4}\/\d{2}\/\d{2}/.test(normalized)) return normalized;
+  return normalized.replace(/\b(\d{2})\/(\d{2})(?!\/\d{4})\b/g, (_, day, month) => {
+    const year = Number(month) >= 9 ? 2026 : 2027;
+    return `${day}/${month}/${year}`;
+  });
+};
+
+const applyFullYearsForPdf = (zone) => {
+  zone.querySelectorAll('.homework-date').forEach((element) => {
+    element.textContent = addSchoolYear(element.textContent);
+  });
+
+  zone.querySelectorAll('.cahier-exams-list tbody tr').forEach((row) => {
+    Array.from(row.cells).slice(0, 2).forEach((cell) => {
+      cell.textContent = addSchoolYear(cell.textContent);
+    });
+  });
+};
 
 const getCss = () => Array.from(document.styleSheets).map((sheet) => {
   try { return Array.from(sheet.cssRules || []).map((rule) => rule.cssText).join('\n'); }
@@ -59,7 +87,7 @@ const getTimetableDurationsForPdf = () => {
 
       const header = document.querySelector(`.timetable-table thead th:nth-child(${hourIndex + 2}) textarea`);
       const hour = clean((header?.value || header?.textContent || '').split('-')[0]);
-      map.set(`${day}|${hour}|${text}`, durationText(span));
+      map.set(`${day}|${hour}|${text}`, durationText(cell.dataset.minutes));
       hourIndex += span;
     });
   });
@@ -87,7 +115,11 @@ const applySessionDurationsForPdf = (zone) => {
         durationNode.className = 'cahier-session-duration';
         line.append(durationNode);
       }
-      durationNode.textContent = durations.get(`${day}|${hour}|${className}`) || '1h';
+      // Le rendu React contient déjà la durée exacte et modifiable en minutes.
+      // La conserver en priorité empêche l'ancien exporteur de la remplacer
+      // par une durée générique « 1h » lorsque la clé traduite ne correspond pas.
+      const renderedDuration = String(durationNode.textContent || '').trim();
+      durationNode.textContent = renderedDuration || durations.get(`${day}|${hour}|${className}`) || '40 د';
     });
   });
 };
@@ -102,19 +134,171 @@ const isAfterJuly10 = (text) => {
   return date?.month === 7 && date.day > 10;
 };
 
-const prepareClone = (clone) => {
-  clone.querySelectorAll(`#${PDF_BUTTON_ID}, script, style, link`).forEach((node) => node.remove());
+// Le clone PDF doit reprendre le comportement réellement calculé dans la page
+// web. Cela évite que Chromium recalcule différemment les matières longues au
+// moment de l'impression (hauteur, retour à la ligne ou taille de police).
+const copyComputedSessionStyles = (clone, source) => {
+  const rules = [
+    {
+      selector: '.cahier-session-row',
+      properties: [
+        'display', 'box-sizing', 'height', 'min-height', 'max-height',
+        'grid-template-columns', 'align-items', 'overflow'
+      ]
+    },
+    {
+      selector: '.cahier-session-details, .cahier-session-name',
+      properties: [
+        'display', 'box-sizing', 'height', 'min-height', 'max-height',
+        'grid-template-columns', 'align-items', 'justify-content', 'overflow'
+      ]
+    },
+    {
+      selector: '.cahier-session-subject',
+      properties: [
+        'display', 'box-sizing', 'width', 'min-width', 'max-width',
+        'height', 'min-height', 'max-height', 'font-family', 'font-size',
+        'font-weight', 'line-height', 'text-align', 'white-space',
+        'overflow', 'overflow-wrap', 'word-break', 'text-overflow',
+        '-webkit-box-orient', '-webkit-line-clamp', 'padding-inline'
+      ]
+    }
+  ];
+
+  rules.forEach(({ selector, properties }) => {
+    const sourceNodes = Array.from(source?.querySelectorAll(selector) || []);
+    const cloneNodes = Array.from(clone.querySelectorAll(selector));
+
+    cloneNodes.forEach((node, index) => {
+      const sourceNode = sourceNodes[index];
+      if (!sourceNode) return;
+      const computed = window.getComputedStyle(sourceNode);
+      properties.forEach((property) => {
+        const value = computed.getPropertyValue(property);
+        if (value) node.style.setProperty(property, value, 'important');
+      });
+    });
+  });
+};
+
+const prepareClone = (clone, source) => {
+  copyComputedSessionStyles(clone, source);
+  clone.querySelectorAll(`#${PDF_BUTTON_ID}, #${PDF_PREVIEW_BUTTON_ID}, script, style, link`).forEach((node) => node.remove());
   clone.querySelectorAll('textarea').forEach((textarea) => {
     textarea.textContent = textarea.value;
     textarea.setAttribute('value', textarea.value);
   });
   clone.querySelectorAll('input').forEach((input) => input.setAttribute('value', input.value));
+  const sourceSelects = Array.from(source?.querySelectorAll('select') || []);
+  clone.querySelectorAll('select').forEach((select, index) => {
+    const sourceSelect = sourceSelects[index];
+    const selectedValue = sourceSelect?.value ?? select.value;
+
+    if (select.classList.contains('timetable-subject-select')) {
+      const subjectLabel = document.createElement('div');
+      subjectLabel.className = `${select.className} pdf-selected-subject`;
+      // Conserver la taille calculée dynamiquement sur le web afin que le PDF
+      // utilise exactement la plus grande taille qui tient dans la cellule.
+      subjectLabel.style.cssText = select.style.cssText;
+      // Les cellules fusionnées sont mal centrées par Chromium avec un top en
+      // pourcentage. Délimiter explicitement la zone au-dessus des métadonnées
+      // garantit un vrai centrage vertical, quelle que soit la hauteur.
+      subjectLabel.style.setProperty('position', 'absolute');
+      subjectLabel.style.setProperty('top', '0');
+      subjectLabel.style.setProperty('right', '0');
+      subjectLabel.style.setProperty('bottom', '14px');
+      subjectLabel.style.setProperty('left', '0');
+      subjectLabel.style.setProperty('width', '100%');
+      subjectLabel.style.setProperty('height', 'auto');
+      subjectLabel.style.setProperty('max-height', 'none');
+      subjectLabel.style.setProperty('transform', 'none');
+      subjectLabel.style.setProperty('display', 'flex');
+      subjectLabel.style.setProperty('align-items', 'center');
+      subjectLabel.style.setProperty('justify-content', 'center');
+      // Dans le PDF, une case non renseignée doit rester totalement vide.
+      // Le texte d'aide « اختر المادة » reste uniquement dans l'interface web.
+      const subjectText = document.createElement('span');
+      subjectText.className = 'pdf-selected-subject-text';
+      subjectText.textContent = selectedValue || '';
+      subjectLabel.append(subjectText);
+      subjectLabel.setAttribute('dir', sourceSelect?.style.direction || select.style.direction || 'rtl');
+      subjectLabel.setAttribute('aria-label', select.getAttribute('aria-label') || 'المادة');
+      select.replaceWith(subjectLabel);
+      return;
+    }
+
+    select.value = selectedValue;
+    Array.from(select.options).forEach((option) => {
+      if (option.value === selectedValue) option.setAttribute('selected', 'selected');
+      else option.removeAttribute('selected');
+    });
+  });
+  // Ne pas modifier la carte des vacances et des événements dans le clone PDF.
+  // Son thème moderne est déjà entièrement défini par la feuille de style du
+  // web ; l'ancien formatage d'export la réduisait artificiellement à 88 px et
+  // produisait donc un rendu différent de l'aperçu.
   clone.style.setProperty('width', A4_WIDTH, 'important');
   clone.style.setProperty('height', A4_HEIGHT, 'important');
   clone.style.setProperty('margin', '0', 'important');
   clone.style.setProperty('transform', 'none', 'important');
   clone.style.setProperty('zoom', '1', 'important');
   clone.style.setProperty('overflow', 'hidden', 'important');
+};
+
+const prepareCompactTimetablesForPdf = (zone) => {
+  const keepCellPart = (cell, span, startsAfterBreak = false) => {
+    cell.colSpan = span;
+    if (startsAfterBreak) {
+      cell.classList.add('cahier-pdf-after-break');
+      cell.style.setProperty('border-left', '4px solid #000', 'important');
+    }
+  };
+
+  const transformRow = (row) => {
+    let logicalHourIndex = 0;
+
+    Array.from(row.cells).slice(1).forEach((cell) => {
+      const originalSpan = Math.max(Number(cell.colSpan) || 1, 1);
+      const cellEnd = logicalHourIndex + originalSpan;
+      const beforeBreakSpan = Math.max(
+        0,
+        Math.min(cellEnd, COMPACT_PDF_HIDDEN_HOUR_START) - logicalHourIndex,
+      );
+      const afterBreakSpan = Math.max(
+        0,
+        cellEnd - Math.max(logicalHourIndex, COMPACT_PDF_HIDDEN_HOUR_END),
+      );
+
+      if (beforeBreakSpan > 0 && afterBreakSpan > 0) {
+        const afterBreakCell = cell.cloneNode(true);
+        keepCellPart(cell, beforeBreakSpan);
+        keepCellPart(afterBreakCell, afterBreakSpan, true);
+        cell.after(afterBreakCell);
+      } else if (beforeBreakSpan > 0) {
+        keepCellPart(cell, beforeBreakSpan);
+      } else if (afterBreakSpan > 0) {
+        keepCellPart(
+          cell,
+          afterBreakSpan,
+          logicalHourIndex <= COMPACT_PDF_HIDDEN_HOUR_END,
+        );
+      } else {
+        cell.remove();
+      }
+
+      logicalHourIndex = cellEnd;
+    });
+  };
+
+  zone.querySelectorAll('.timetable-table.compact-pdf-hours').forEach((table) => {
+    table.querySelectorAll('thead tr, tbody tr').forEach(transformRow);
+    table.style.setProperty('width', '96%', 'important');
+    table.style.setProperty('margin-left', 'auto', 'important');
+    table.style.setProperty('margin-right', 'auto', 'important');
+    table.style.setProperty('table-layout', 'fixed', 'important');
+    table.dataset.cahierPdfCompactNormalized = 'true';
+    table.classList.remove('compact-pdf-hours');
+  });
 };
 
 const removeAfterJuly10 = (zone) => {
@@ -141,14 +325,14 @@ const makeExitPage = (sourcePage) => {
   page.style.cssText = `position:relative;padding-top:60px;--group-color:${color};`;
 
   const header = sourcePage?.firstElementChild?.cloneNode(true) || document.createElement('div');
-  if (!header.textContent?.trim()) header.textContent = 'Lycée';
+  if (!header.textContent?.trim()) header.textContent = 'Collège';
   page.append(header);
 
   const section = document.createElement('section');
   section.className = 'homework-entry cahier-extra-holiday-entry';
   section.dataset.sort = '20270710';
   section.style.setProperty('--homework-color', '#38bdf8');
-  section.innerHTML = '<div class="homework-date">' + EXIT_DATE + '</div><div class="homework-content"><div class="homework-subject"><div><span>Lycée</span></div></div><div class="homework-text" style="color:#1e3a8a;font-size:21px;font-weight:900;text-align:center;background:linear-gradient(90deg,rgba(191,219,254,.45),rgba(219,234,254,.82));border:1px solid rgba(37,99,235,.28);border-radius:12px;margin:8px 18px;padding:10px 16px">' + EXIT_TEXT + '</div></div>';
+  section.innerHTML = '<div class="homework-date">' + EXIT_DATE + '</div><div class="homework-content"><div class="homework-subject"><div><span>Collège</span></div></div><div class="homework-text" style="color:#1e3a8a;font-size:21px;font-weight:900;text-align:center;background:linear-gradient(90deg,rgba(191,219,254,.45),rgba(219,234,254,.82));border:1px solid rgba(37,99,235,.28);border-radius:12px;margin:8px 18px;padding:10px 16px">' + EXIT_TEXT + '</div></div>';
   page.append(section);
   return page;
 };
@@ -181,8 +365,21 @@ const ensurePdfIncludesJuly10 = (zone) => {
   zone.append(makeExitPage(lastHomeworkPage));
 };
 
+const keepReferencePagesLast = (zone) => {
+  const examsPages = Array.from(zone.querySelectorAll('#cahier-exams-groups-page, .cahier-exams-groups-page'));
+  const holidaysPages = Array.from(zone.querySelectorAll('#cahier-holidays-page, .holidays-page'));
+  const examsPage = examsPages[examsPages.length - 1];
+  const holidaysPage = holidaysPages[holidaysPages.length - 1];
+
+  examsPages.slice(0, -1).forEach((page) => page.remove());
+  holidaysPages.slice(0, -1).forEach((page) => page.remove());
+  if (examsPage) zone.append(examsPage);
+  if (holidaysPage) zone.append(holidaysPage);
+};
+
 const buildExportHtml = () => {
   const pages = Array.from(document.querySelectorAll('.cahier-preview-zone .a4-page, .cahier-preview-zone .cahier-page')).filter((page) => {
+    if (page.matches(LEGACY_COVER_SELECTOR)) return false;
     const rect = page.getBoundingClientRect();
     const style = window.getComputedStyle(page);
     return rect.width > 50 && rect.height > 50 && style.display !== 'none' && style.visibility !== 'hidden';
@@ -199,31 +396,80 @@ const buildExportHtml = () => {
 
   pages.forEach((page) => {
     const clone = page.cloneNode(true);
-    prepareClone(clone);
+    prepareClone(clone, page);
     zone.append(clone);
   });
 
+  prepareCompactTimetablesForPdf(zone);
   applySessionDurationsForPdf(zone);
   removeAfterJuly10(zone);
-  appendExitPageForEachGroup(zone);
-  ensurePdfIncludesJuly10(zone);
+  // Projet Collèges : aucune entrée bleue administrative ajoutée automatiquement.
+  applyFullYearsForPdf(zone);
+  keepReferencePagesLast(zone);
 
   return `<style>${getCss()}\n${EXPORT_CSS}</style>${zone.outerHTML}`;
 };
 
-const downloadBlob = (blob) => {
-  const url = URL.createObjectURL(blob);
+const downloadPdf = (pdfBlob) => {
+  const url = URL.createObjectURL(pdfBlob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = 'Cahier-de-texte-2026-2027.pdf';
+  link.download = PDF_FILENAME;
   document.body.append(link);
   link.click();
   link.remove();
-  window.setTimeout(() => URL.revokeObjectURL(url), 1500);
+  window.setTimeout(() => URL.revokeObjectURL(url), 5000);
 };
 
-const exportPdf = async (button) => {
+const showPreviewLoading = (previewWindow) => {
+  previewWindow.document.open();
+  previewWindow.document.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Génération PDF…</title></head><body style="margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f8fafc;font-family:Arial,sans-serif;color:#0f172a"><div style="text-align:center"><h2>Génération du PDF en cours…</h2><p>Veuillez patienter.</p></div></body></html>');
+  previewWindow.document.close();
+};
+
+const submitPreviewForm = (html, previewWindow) => {
+  const form = document.createElement('form');
+  form.method = 'POST';
+  // Le lecteur PDF du navigateur choisit sinon souvent « page entière »,
+  // ce qui donne l'impression que le document a été généré trop petit.
+  // Le fragment n'est pas envoyé au serveur : il règle uniquement le zoom
+  // initial de l'aperçu PDF, sans modifier l'A4 ni son contenu.
+  form.action = '/api/cahier-pdf?preview=1#zoom=100';
+  form.target = previewWindow.name;
+  form.enctype = 'application/x-www-form-urlencoded';
+  form.acceptCharset = 'UTF-8';
+  form.style.display = 'none';
+
+  const htmlField = document.createElement('textarea');
+  htmlField.name = 'html';
+  htmlField.value = html;
+  form.append(htmlField);
+
+  const baseUrlField = document.createElement('input');
+  baseUrlField.type = 'hidden';
+  baseUrlField.name = 'baseUrl';
+  baseUrlField.value = window.location.origin;
+  form.append(baseUrlField);
+
+  document.body.append(form);
+  form.submit();
+  form.remove();
+};
+
+const exportPdf = async (button, mode = 'download') => {
   const original = button.textContent;
+  let previewWindow = null;
+
+  if (mode === 'preview') {
+    const targetName = `cahier-pdf-preview-${Date.now()}`;
+    previewWindow = window.open('about:blank', targetName);
+    if (!previewWindow) {
+      alert('Autorisez les fenêtres surgissantes pour voir le PDF.');
+      return;
+    }
+    showPreviewLoading(previewWindow);
+  }
+
   button.disabled = true;
   button.textContent = 'Préparation PDF...';
 
@@ -231,6 +477,16 @@ const exportPdf = async (button) => {
     if (document.fonts?.ready) await document.fonts.ready;
     const html = buildExportHtml();
     button.textContent = 'Génération PDF...';
+
+    if (mode === 'preview') {
+      submitPreviewForm(html, previewWindow);
+      button.textContent = 'PDF en cours...';
+      window.setTimeout(() => {
+        button.textContent = original;
+        button.disabled = false;
+      }, 1500);
+      return;
+    }
 
     const response = await fetch('/api/cahier-pdf', {
       method: 'POST',
@@ -244,37 +500,52 @@ const exportPdf = async (button) => {
       throw new Error(message);
     }
 
+    const blob = await response.blob();
     button.textContent = 'Téléchargement...';
-    downloadBlob(await response.blob());
+    downloadPdf(blob);
     button.textContent = 'PDF téléchargé';
     window.setTimeout(() => { button.textContent = original; }, 900);
   } catch (error) {
+    if (previewWindow && !previewWindow.closed) previewWindow.close();
     alert(`Erreur PDF : ${error?.message || 'export impossible'}`);
     button.textContent = original;
   } finally {
-    button.disabled = false;
+    if (mode !== 'preview') button.disabled = false;
   }
 };
 
-const styleButton = (button) => {
+const styleButton = (button, side) => {
   button.hidden = false;
-  button.style.cssText = 'position:fixed!important;right:22px!important;bottom:22px!important;z-index:2147483647!important;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;border:0!important;border-radius:999px!important;padding:14px 22px!important;min-width:190px!important;background:#16a34a!important;color:white!important;font:900 15px Arial,sans-serif!important;box-shadow:0 10px 25px rgba(0,0,0,.28)!important;cursor:pointer!important;';
+  const bottomPosition = side === 'left' ? 146 : 82;
+  button.style.cssText = `position:fixed!important;left:8px!important;right:auto!important;bottom:${bottomPosition}px!important;z-index:2147483647!important;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;box-sizing:border-box!important;border:1px solid #15803d!important;border-bottom:2px solid #14532d!important;border-radius:10px!important;padding:7px 12px!important;width:334px!important;height:50px!important;max-width:calc(100vw - 16px)!important;min-width:0!important;background:linear-gradient(180deg,#4ade80 0%,#16a34a 52%,#15803d 100%)!important;color:white!important;font:900 21px Arial,sans-serif!important;text-shadow:0 1px 1px rgba(0,0,0,.38)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 4px 0 #14532d,0 7px 13px rgba(0,0,0,.3)!important;transform:translateY(-2px)!important;cursor:pointer!important;transition:transform .12s ease,box-shadow .12s ease!important;`;
 };
 
-const createButton = () => {
-  if (document.getElementById(PDF_BUTTON_ID)) return;
+const freshButton = (id) => {
+  const existing = document.getElementById(id);
   const button = document.createElement('button');
-  button.id = PDF_BUTTON_ID;
+  button.id = id;
   button.type = 'button';
-  button.textContent = 'Télécharger PDF';
-  button.title = 'Télécharger toutes les pages A4 en PDF';
-  styleButton(button);
-  button.addEventListener('click', () => exportPdf(button));
-  document.body.append(button);
+  if (existing) existing.replaceWith(button);
+  else document.body.append(button);
+  return button;
+};
+
+const createButtons = () => {
+  const downloadButton = freshButton(PDF_BUTTON_ID);
+  downloadButton.textContent = 'Télécharger PDF';
+  downloadButton.title = 'Télécharger toutes les pages A4 en PDF';
+  styleButton(downloadButton, 'right');
+  downloadButton.addEventListener('click', () => exportPdf(downloadButton, 'download'));
+
+  const previewButton = freshButton(PDF_PREVIEW_BUTTON_ID);
+  previewButton.textContent = 'Voir PDF';
+  previewButton.title = 'Générer et ouvrir toutes les pages A4 dans un nouvel onglet';
+  styleButton(previewButton, 'left');
+  previewButton.addEventListener('click', () => exportPdf(previewButton, 'preview'));
 };
 
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', createButton, { once: true });
+  document.addEventListener('DOMContentLoaded', createButtons, { once: true });
 } else {
-  createButton();
+  createButtons();
 }

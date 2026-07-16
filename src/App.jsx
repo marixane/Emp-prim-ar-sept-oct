@@ -1,59 +1,154 @@
-import { useEffect } from 'react';
-import Tab from './Tab.jsx';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import CoverPage from './CoverPage.jsx';
+import TabWithFullDates from './TabWithFullDates.jsx';
+import { scheduleFullDates } from './force-full-cahier-dates.js';
 
-const scheduleRows = [
-  ['Premier semestre', 'Du 4 au 9 janvier 2027', 'Dernière période des contrôles continus'],
-  ['Premier semestre', '16 janvier 2027', 'Fin de saisie des notes des contrôles continus'],
-  ['Premier semestre', '18 et 19 janvier 2027', 'Passation de l’examen unifié local pour l’obtention du certificat d’études primaires'],
-  ['Premier semestre', '20 janvier 2027', 'Fin de saisie des notes de l’examen unifié local'],
-  ['Premier semestre', 'À partir du 21 janvier 2027', 'Exportation des données des notes via la plateforme Massar'],
-  ['Premier semestre', '21 et 22 janvier 2027', 'Tenue des conseils de classe'],
-  ['Premier semestre', '23 janvier 2027', 'Distribution des relevés de notes'],
-  ['Deuxième semestre', 'Du 14 au 19 juin 2027', 'Dernière période des contrôles continus'],
-  ['Deuxième semestre', '22 juin 2027', 'Fin de saisie des notes des contrôles continus'],
-  ['Deuxième semestre', 'Du 21 au 24 juin 2027', 'Préparation collective de l’examen unifié provincial'],
-  ['Deuxième semestre', '25 et 26 juin 2027', 'Passation de l’examen unifié provincial pour l’obtention du certificat d’études primaires'],
-  ['Deuxième semestre', '30 juin 2027', 'Fin de saisie des notes de l’examen unifié provincial'],
-  ['Deuxième semestre', 'À partir du 1er juillet 2027', 'Exportation des données des notes via la plateforme Massar'],
-  ['Deuxième semestre', '1er et 2 juillet 2027', 'Tenue des conseils de classe'],
-  ['Deuxième semestre', '3 juillet 2027', 'Distribution des relevés de notes']
-];
+const removeOldFirstPages = () => {
+  document.querySelectorAll('.a4-page').forEach((page) => {
+    const text = String(page.textContent || '').replace(/\s+/g, ' ').trim().toLowerCase();
+    const isOldCover = text.includes('mon cahier') || text.includes("classes remplies dans l'emploi du temps");
+    if (isOldCover) page.remove();
+  });
+};
 
-const pageStyle = { boxSizing: 'border-box', width: '210mm', height: '297mm', margin: '36px auto 0', padding: '22mm 16mm', overflow: 'hidden', background: 'white', fontFamily: 'Arial, sans-serif', color: '#111' };
-const tableStyle = { width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed', fontSize: '14px' };
-const headStyle = { border: '2px solid #111', padding: '10px 8px', background: '#f5f5f5', fontWeight: 900, textAlign: 'center' };
-const cellStyle = { border: '1.5px solid #111', padding: '9px 8px', verticalAlign: 'middle', lineHeight: 1.25 };
+const refreshLayout = () => {
+  removeOldFirstPages();
+};
 
 export default function App() {
+  const [primaryLevelRows, setPrimaryLevelRows] = useState(() => ['المستوى الأول', 'المستوى الثاني']);
+
   useEffect(() => {
     document.body.classList.add('cahier-tab-active');
     document.body.classList.remove('devoir-tab-active');
 
+    let scheduled = false;
+    const scheduleRefresh = () => {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(() => {
+        scheduled = false;
+        refreshLayout();
+      });
+    };
+
+    window.addEventListener('cahier-pages-generated', scheduleRefresh);
+    scheduleRefresh();
+
     return () => {
+      window.removeEventListener('cahier-pages-generated', scheduleRefresh);
       document.body.classList.remove('cahier-tab-active');
     };
   }, []);
 
+  useLayoutEffect(() => {
+    const cleanupFullDates = scheduleFullDates();
+    refreshLayout();
+
+    return cleanupFullDates;
+  }, []);
+
   return <>
-    <Tab />
-    <div className="a4-page cahier-page primary-schedule-page" style={pageStyle}>
-      <h1 style={{ margin: '0 0 18px', textAlign: 'center', fontSize: '28px' }}>Calendrier des opérations — Cycle primaire</h1>
-      <table style={tableStyle}>
-        <thead>
-          <tr>
-            <th style={{ ...headStyle, width: '20%' }}>Semestre</th>
-            <th style={{ ...headStyle, width: '24%' }}>Dates</th>
-            <th style={headStyle}>Opérations</th>
-          </tr>
-        </thead>
-        <tbody>
-          {scheduleRows.map(([semester, date, operation]) => <tr key={`${semester}-${date}`}>
-            <td style={{ ...cellStyle, textAlign: 'center', fontWeight: 800 }}>{semester}</td>
-            <td style={{ ...cellStyle, textAlign: 'center', fontWeight: 800 }}>{date}</td>
-            <td style={cellStyle}>{operation}</td>
-          </tr>)}
-        </tbody>
-      </table>
-    </div>
+    <style>{`
+      .timetable-table .timetable-cell-content.colored-cell .timetable-class-input {
+        display: block !important;
+        justify-self: stretch !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        height: 26px !important;
+        min-height: 26px !important;
+        max-height: 26px !important;
+        margin: 0 !important;
+        padding: 0 2px !important;
+        font-size: var(--timetable-class-font-size, 14px) !important;
+        font-weight: 900 !important;
+        line-height: 26px !important;
+        text-align: center !important;
+        text-indent: 0 !important;
+        direction: ltr !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        resize: none !important;
+      }
+
+      .timetable-table .timetable-cell-content.colored-cell {
+        grid-template-columns: minmax(0, 1fr) !important;
+      }
+
+      body.cahier-tab-active .timetable-table .timetable-cell-content.colored-cell .span-tools {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        justify-self: stretch !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 1px !important;
+        gap: 2px !important;
+        transform: none !important;
+      }
+
+      body.cahier-tab-active .timetable-table .timetable-cell-content.colored-cell .span-tools button {
+        flex: 0 1 16px !important;
+        width: 16px !important;
+        min-width: 0 !important;
+        max-width: 16px !important;
+        padding: 0 !important;
+        font-size: 10px !important;
+      }
+
+      body.cahier-tab-active .timetable-table .timetable-cell-content.colored-cell .room-control {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        justify-self: stretch !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 2px 0 !important;
+        gap: 4px !important;
+        transform: none !important;
+      }
+
+      body.cahier-tab-active .timetable-table .timetable-cell-content.colored-cell .room-control input {
+        flex: 0 0 24px !important;
+        width: 24px !important;
+        min-width: 24px !important;
+        max-width: 24px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: center !important;
+      }
+
+      .homework-date[data-assignment-week-label] {
+        position: relative;
+        white-space: nowrap !important;
+      }
+
+      .homework-date[data-assignment-week-label]::after {
+        content: attr(data-assignment-week-label);
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        color: inherit;
+        font-family: inherit;
+        font-size: var(--last-assignment-label-size, 1em);
+        font-weight: inherit;
+        line-height: inherit;
+        letter-spacing: inherit;
+        text-transform: none;
+        white-space: nowrap;
+      }
+
+      .homework-cover-page .cahier-group-cover-class-chip {
+        min-height: 50px !important;
+        padding: 10px 14px !important;
+        font-size: clamp(20px, 2.8vw, 24px) !important;
+        line-height: 1.05 !important;
+      }
+    `}</style>
+    <CoverPage primaryLevelRows={primaryLevelRows} />
+    <TabWithFullDates primaryLevelRows={primaryLevelRows} onPrimaryLevelRowsChange={setPrimaryLevelRows} />
   </>;
 }

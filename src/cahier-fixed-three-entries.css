@@ -1,0 +1,330 @@
+/* Deux journées fixes par page. Les vacances de mi-année occupent les deux étages. */
+body.cahier-tab-active .homework-page.cahier-two-entry-page {
+  --cahier-entry-height: 465px !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-entry {
+  display: grid !important;
+  height: 465px !important;
+  min-height: 465px !important;
+  max-height: 465px !important;
+  grid-template-rows: 75px 390px !important;
+  overflow: hidden !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-date {
+  height: 75px !important;
+  min-height: 75px !important;
+  max-height: 75px !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-content,
+body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-subject,
+body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-text {
+  height: 390px !important;
+  min-height: 390px !important;
+  max-height: 390px !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-content {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-content.cahier-sessions-content {
+  position: relative !important;
+}
+
+/* Une ligne horizontale de même hauteur pour chaque séance du jour. */
+body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-subject.cahier-session-list {
+  display: grid !important;
+  grid-template-rows: repeat(var(--session-count), minmax(0, 1fr)) !important;
+  align-content: stretch !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr) !important;
+  align-items: center !important;
+  gap: 0 !important;
+  width: calc(100% - 2px) !important;
+  min-width: 0 !important;
+  max-width: calc(100% - 2px) !important;
+  height: 40px !important;
+  min-height: 0 !important;
+  max-height: calc(100% - 8px) !important;
+  align-self: center !important;
+  margin: 0 1px !important;
+  padding: 2px 4px !important;
+  border: 1.5px solid color-mix(in srgb, var(--homework-color) 55%, #64748b 45%) !important;
+  border-bottom: 1.5px solid color-mix(in srgb, var(--homework-color) 55%, #64748b 45%) !important;
+  border-radius: 10px !important;
+  background: color-mix(in srgb, var(--homework-color) 8%, white 92%) !important;
+  box-sizing: border-box !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-hour {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  padding: 0 4px !important;
+  box-sizing: border-box !important;
+  font-size: 12px !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-details {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  padding: 0 6px !important;
+  box-sizing: border-box !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-row:last-child {
+  border-bottom: 1.5px solid color-mix(in srgb, var(--homework-color) 55%, #64748b 45%) !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-name {
+  display: flex !important;
+  flex-direction: row !important;
+  direction: ltr !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: normal !important;
+  text-align: center !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.2px !important;
+  line-height: 1.05 !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-sequence,
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-subject {
+  display: inline-block !important;
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
+  font: inherit !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  line-height: 1.05 !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-sequence {
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  flex-direction: row !important;
+  direction: ltr !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0 !important;
+  white-space: nowrap !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-sequence > span {
+  display: inline-block !important;
+  flex: 0 0 auto !important;
+  direction: ltr !important;
+  font: inherit !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-subject {
+  unicode-bidi: plaintext !important;
+  max-width: calc(100% - 34px) !important;
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  font-size: 11px !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  line-height: 1.1 !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-duration {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: static !important;
+  width: 38px !important;
+  min-width: 0 !important;
+  height: 28px !important;
+  padding: 0 3px !important;
+  border-left: 1px solid rgba(63, 64, 80, 0.22) !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  color: #343545 !important;
+  background: transparent !important;
+  white-space: nowrap !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-separators {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 3 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-separators > span {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 2px !important;
+  background: linear-gradient(90deg, rgba(63, 64, 80, 0.2), rgba(63, 64, 80, 0.13)) !important;
+  transform: translateY(-1px) !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-text.cahier-session-notes {
+  display: grid !important;
+  grid-template-rows: repeat(var(--session-count), minmax(0, 1fr)) !important;
+  align-content: stretch !important;
+  gap: 0 !important;
+  padding: 0 16px !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  white-space: normal !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-note-row {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-evenly !important;
+  align-items: stretch !important;
+  min-height: 0 !important;
+  padding: 5px 0 !important;
+  box-sizing: border-box !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-session-dot-line {
+  display: block !important;
+  width: 100% !important;
+  height: 0 !important;
+  border-top: 3px dotted rgba(63, 64, 80, 0.28) !important;
+}
+
+/* Badges des vacances et événements : grands, centrés et sans durée. */
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-extra-holiday-entry .homework-subject,
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-exam-entry .homework-subject {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 14px !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-extra-holiday-entry .cahier-session-row,
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-exam-entry .cahier-session-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 64px !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-extra-holiday-entry .cahier-session-hour,
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-exam-entry .cahier-session-hour {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: calc(100% - 12px) !important;
+  min-width: 0 !important;
+  max-width: calc(100% - 12px) !important;
+  height: 54px !important;
+  padding: 0 12px !important;
+  border-radius: 999px !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-extra-holiday-entry .cahier-session-details,
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-exam-entry .cahier-session-details {
+  display: none !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-midyear-holiday-entry {
+  height: 930px !important;
+  min-height: 930px !important;
+  max-height: 930px !important;
+  grid-template-rows: 75px 855px !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-midyear-holiday-content {
+  height: 855px !important;
+  min-height: 855px !important;
+  max-height: 855px !important;
+}
+
+body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-halfweek-placeholder-entry.cahier-hide-first-saturday {
+  display: grid !important;
+}
+
+@media print {
+  body.cahier-tab-active .homework-page.cahier-two-entry-page {
+    --cahier-entry-height: 465px !important;
+  }
+
+  body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-entry {
+    height: 465px !important;
+    min-height: 465px !important;
+    max-height: 465px !important;
+    grid-template-rows: 75px 390px !important;
+  }
+
+  body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-date {
+    height: 75px !important;
+    min-height: 75px !important;
+    max-height: 75px !important;
+  }
+
+  body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-content,
+  body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-subject,
+  body.cahier-tab-active .homework-page.cahier-two-entry-page .homework-text {
+    height: 390px !important;
+    min-height: 390px !important;
+    max-height: 390px !important;
+  }
+
+  body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-midyear-holiday-entry {
+    height: 930px !important;
+    min-height: 930px !important;
+    max-height: 930px !important;
+    grid-template-rows: 75px 855px !important;
+  }
+
+  body.cahier-tab-active .homework-page.cahier-two-entry-page .cahier-midyear-holiday-content {
+    height: 855px !important;
+    min-height: 855px !important;
+    max-height: 855px !important;
+  }
+}

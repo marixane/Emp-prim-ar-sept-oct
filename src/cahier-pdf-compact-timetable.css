@@ -1,0 +1,31 @@
+.compact-timetable-pdf-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 10px;
+  padding: 7px 10px;
+  border: 1px solid rgba(17, 24, 39, 0.2);
+  border-radius: 9px;
+  background: #fff;
+  color: #111827;
+  font: 700 13px Arial, sans-serif;
+  cursor: pointer;
+}
+
+.compact-timetable-pdf-toggle input {
+  width: 16px;
+  height: 16px;
+}
+
+@media print {
+  .timetable-table.compact-pdf-hours {
+    width: 96% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    table-layout: fixed !important;
+  }
+
+  .timetable-table .cahier-pdf-after-break {
+    border-left: 4px solid #000 !important;
+  }
+}

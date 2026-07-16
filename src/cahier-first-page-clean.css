@@ -38,7 +38,7 @@
 }
 
 .cahier-page > .cahier-header > h2::after {
-  content: 'EMPLOI DU TEMPS' !important;
+  content: 'استعمال الزمن الأسبوعي' !important;
   color: #1f2937 !important;
   font-size: 34px !important;
   font-weight: 950 !important;

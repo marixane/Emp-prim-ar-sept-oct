@@ -1,0 +1,656 @@
+.timetable-compatibility-source {
+  display: none !important;
+}
+
+.primary-timetable-layout {
+  position: relative;
+  top: 70px;
+  width: calc(100% - 72px);
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+  direction: rtl;
+}
+
+.primary-timetable-table {
+  position: relative;
+  top: 0;
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  margin: 0;
+  border: 2px solid #334155;
+  border-right: 0;
+  border-radius: 14px 0 0 14px;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  overflow: hidden;
+  background: #fff;
+  color: #0f172a;
+  direction: rtl;
+  font-family: Tahoma, Arial, sans-serif;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+}
+
+.primary-period-side-column {
+  box-sizing: border-box;
+  display: grid;
+  flex: 0 0 42px;
+  grid-template-rows: 63px 210px 228px;
+  overflow: hidden;
+  border: 2px solid #334155;
+  border-left: 0;
+  border-radius: 0 14px 14px 0;
+  background: #fff;
+  color: #0f172a;
+  font-family: Tahoma, Arial, sans-serif;
+  box-shadow: 7px 10px 20px rgba(15, 23, 42, 0.08);
+}
+
+.primary-period-side-spacer {
+  border-bottom: 1.5px solid rgba(51, 65, 85, 0.58);
+  background: linear-gradient(180deg, #dcfce7 0%, #fef3c7 100%);
+}
+
+.primary-period-side-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 0;
+  border-bottom: 1.5px solid rgba(51, 65, 85, 0.58);
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.96), rgba(226, 232, 240, 0.78));
+  color: #111827;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.primary-period-side-afternoon {
+  border-bottom: 0;
+  background: linear-gradient(180deg, rgba(254, 242, 242, 0.92), rgba(254, 226, 226, 0.70));
+}
+
+.primary-timetable-table th,
+.primary-timetable-table td {
+  box-sizing: border-box;
+  border-right: 1.5px solid rgba(51, 65, 85, 0.58);
+  border-bottom: 1.5px solid rgba(51, 65, 85, 0.58);
+  padding: 0;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: top;
+}
+
+.primary-timetable-table tr > :first-child {
+  border-right: 0;
+}
+
+.primary-timetable-table tbody:last-of-type tr:last-child > * {
+  border-bottom: 0;
+}
+
+.primary-timetable-table thead th {
+  height: 38px;
+  background: linear-gradient(180deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #14532d;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.primary-timetable-table thead textarea,
+.primary-timetable-table .primary-time-cell textarea {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 7px 3px;
+  border: 0;
+  resize: none;
+  overflow: hidden;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 900;
+  line-height: 1.05;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.primary-timetable-table .primary-time-heading,
+.primary-timetable-table .primary-time-cell {
+  width: 90px;
+  min-width: 90px;
+  background: linear-gradient(180deg, #eff6ff, #dbeafe);
+  color: #1e3a8a;
+}
+
+/* L'en-tête « الأيام » appartient à la rangée des jours : il doit donc
+   reprendre exactement leur présentation, et non celle de la colonne horaire. */
+.primary-timetable-table thead th.primary-time-heading {
+  background: linear-gradient(180deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #14532d;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.primary-timetable-table .primary-time-cell textarea {
+  direction: ltr;
+  font-family: Arial, sans-serif;
+}
+
+.primary-timetable-table .primary-sequence-row th {
+  height: 13px;
+  background: linear-gradient(180deg, #fef3c7, #ffedd5);
+  color: #7c2d12;
+  font-size: 8px;
+  line-height: 13px;
+}
+
+.primary-timetable-table .primary-sequence-row th:first-child {
+  padding: 2px 4px;
+  font-size: 8px;
+  line-height: 1.15;
+  white-space: normal;
+}
+
+.primary-timetable-table .primary-sequence-heading {
+  height: 26px;
+  padding: 1px 3px !important;
+  line-height: 1.05 !important;
+  vertical-align: middle;
+}
+
+.primary-timetable-table .primary-level-select {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 10px 0 2px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #7c2d12;
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 8px;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  text-align-last: center;
+  cursor: pointer;
+}
+
+.primary-timetable-table .primary-sequence-number {
+  font-size: 11px !important;
+  line-height: 13px !important;
+}
+
+.primary-timetable-table .primary-marker-row td {
+  height: 18px;
+  padding: 1px 10px;
+  border-right: 0;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 15px;
+  letter-spacing: 0.2px;
+  direction: rtl;
+}
+
+.timetable-page-shifted > .cahier-header h2 {
+  font-family: Tahoma, Arial, sans-serif;
+  direction: rtl;
+}
+
+.primary-timetable-table .primary-marker-period td {
+  background: linear-gradient(90deg, #dbeafe, #eff6ff, #dbeafe);
+  color: #1e3a8a;
+}
+
+.primary-timetable-table .primary-marker-break td {
+  background: linear-gradient(90deg, #fce7f3, #fbcfe8, #fce7f3);
+  color: #9d174d;
+}
+
+.primary-timetable-table .primary-marker-midday td {
+  background: linear-gradient(90deg, #cffafe, #ecfeff, #cffafe);
+  color: #155e75;
+}
+
+.primary-timetable-table .primary-time-row > th,
+.primary-timetable-table .primary-time-row > td {
+  height: 24px;
+}
+
+.primary-timetable-table .primary-time-cell {
+  font-size: 10px;
+  vertical-align: middle;
+}
+
+.primary-timetable-table .primary-period-time-cell {
+  padding: 0 !important;
+  vertical-align: stretch;
+}
+
+.primary-timetable-table .primary-period-time-range {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  min-height: 94px;
+  padding: 5px 2px;
+  direction: ltr;
+}
+
+.primary-timetable-table .primary-period-time-range input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 22px;
+  padding: 2px;
+  border: 0;
+  border-radius: 4px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.62);
+  color: #1e3a8a;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.primary-timetable-table .primary-section-level-select {
+  position: absolute;
+  z-index: 4;
+  top: 1px;
+  right: 2px;
+  box-sizing: border-box;
+  width: calc(100% - 4px);
+  height: 15px;
+  min-height: 15px;
+  padding: 1px 16px 1px 3px;
+  border: 1px solid rgba(30, 64, 175, 0.25);
+  border-radius: 5px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.78);
+  color: #1e3a8a;
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 8px;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  text-align-last: center;
+  cursor: pointer;
+}
+
+.primary-timetable-table .primary-section-first-row > th,
+.primary-timetable-table .primary-section-first-row > td {
+  height: 39px;
+}
+
+.primary-timetable-table .primary-section-first-cell {
+  position: relative;
+  box-sizing: border-box;
+  padding-top: 16px;
+}
+
+.primary-timetable-table .primary-section-first-cell > .timetable-cell-content {
+  height: calc(100% - 16px);
+}
+
+.primary-timetable-table .primary-period-time-range span {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.primary-timetable-table .primary-time-row:nth-child(even) > td {
+  background-color: rgba(248, 250, 252, 0.7);
+}
+
+.primary-timetable-table .timetable-cell-content {
+  width: 100%;
+  height: 100%;
+  min-height: 23px;
+  max-height: none;
+  border-radius: 7px;
+}
+
+.primary-timetable-table .timetable-cell-content.colored-cell {
+  position: relative;
+  display: block;
+  background: var(--cell-color, #fff);
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.10);
+}
+
+.primary-timetable-table .timetable-cell-content .timetable-class-input {
+  box-sizing: border-box;
+  display: block;
+  grid-row: 2;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+  margin: 0;
+  padding: 1px 3px !important;
+  border: 0;
+  resize: none;
+  overflow: hidden;
+  outline: none;
+  background: transparent;
+  color: #111827;
+  font-size: var(--timetable-class-font-size, 10px) !important;
+  font-weight: 900;
+  line-height: 1 !important;
+  text-align: center;
+}
+
+.primary-timetable-table .timetable-cell-content .timetable-subject-select {
+  appearance: auto;
+  padding-right: 12px !important;
+  padding-left: 2px !important;
+  cursor: pointer;
+  direction: rtl;
+  text-align: center;
+  text-align-last: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.primary-timetable-table .timetable-cell-content.colored-cell .timetable-subject-select {
+  position: absolute;
+  top: 10px;
+  bottom: auto;
+  left: 0;
+  align-self: auto;
+  height: calc(100% - 24px);
+  max-height: calc(100% - 24px);
+  transform: none;
+}
+
+.primary-timetable-table .timetable-cell-content .timetable-subject-select option {
+  color: #111827;
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  direction: rtl;
+  text-align: right;
+}
+
+.primary-timetable-table .timetable-cell-content .pdf-selected-subject {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1px !important;
+  padding-right: 2px !important;
+  padding-left: 2px !important;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.primary-timetable-table .timetable-cell-content .pdf-selected-subject-text {
+  position: static;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  transform: none;
+  line-height: 1.05;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.primary-timetable-table .timetable-cell-content:not(.colored-cell) .timetable-class-input {
+  padding-top: 6px !important;
+  color: rgba(15, 23, 42, 0.45);
+  font-size: 10px !important;
+}
+
+.primary-timetable-table .timetable-cell-content.colored-cell .span-tools {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 11px);
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 1px;
+  padding: 0;
+  transform: none;
+  direction: ltr;
+}
+
+.primary-timetable-table .span-tools button {
+  width: 11px;
+  min-width: 11px;
+  max-width: 11px;
+  height: 10px;
+  margin: 0;
+  padding: 0;
+  font-size: 8px;
+  line-height: 8px;
+}
+
+.primary-timetable-table .span-tools .span-tool-placeholder {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.primary-timetable-table .timetable-cell-content.colored-cell .room-control {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 14px;
+  gap: 3px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.42);
+  border-top: 1px solid rgba(63, 64, 80, 0.16);
+  color: #334155;
+  font-size: 6px;
+  cursor: grab !important;
+}
+
+.primary-timetable-table .timetable-cell-content.colored-cell .room-control *,
+.primary-timetable-table .timetable-cell-content.colored-cell .session-minutes-value,
+.primary-timetable-table .timetable-cell-content.colored-cell .session-sequence-label {
+  cursor: grab !important;
+}
+
+.primary-timetable-table .timetable-cell-content.colored-cell .room-control:active,
+.primary-timetable-table .timetable-cell-content.colored-cell .room-control:active * {
+  cursor: grabbing !important;
+}
+
+.primary-timetable-table .room-control input {
+  width: 24px !important;
+  height: 11px !important;
+  padding: 0 !important;
+  font-size: 7px !important;
+}
+
+.primary-timetable-table .session-minutes-control {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  direction: ltr;
+  gap: 2px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.primary-timetable-table .session-minutes-control .session-minutes-value {
+  grid-column: 1;
+  display: inline-flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  direction: ltr;
+}
+
+.primary-timetable-table .session-minutes-control .session-sequence-label {
+  grid-column: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  direction: rtl;
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 11px;
+  white-space: nowrap;
+}
+
+.primary-timetable-table .session-minutes-control input {
+  width: 30px !important;
+  height: 11px !important;
+  color: #0f172a !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  line-height: 11px !important;
+  text-align: center !important;
+  direction: ltr !important;
+}
+
+.primary-timetable-table .session-minutes-control .session-minutes-value > span {
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 11px;
+}
+
+.primary-timetable-table .selected-cell {
+  box-shadow: inset 0 0 0 2px #2563eb !important;
+}
+
+.primary-timetable-table .drop-ready-cell {
+  box-shadow: inset 0 0 0 3px #22c55e !important;
+}
+
+@media print {
+  .primary-timetable-table .primary-section-level-select {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    padding: 1px 2px !important;
+    background-image: none !important;
+  }
+
+  .primary-timetable-table .primary-section-level-select.primary-section-level-empty {
+    display: none !important;
+  }
+
+  .primary-timetable-layout {
+    top: 58px;
+    width: calc(100% - 54px);
+  }
+
+  .primary-timetable-table {
+    box-shadow: none;
+  }
+
+  .primary-period-side-column {
+    grid-template-rows: 63px 202px 220px;
+    box-shadow: none;
+  }
+
+  .primary-timetable-table .primary-time-row > th,
+  .primary-timetable-table .primary-time-row > td {
+    height: 23px;
+  }
+
+  .primary-timetable-table .timetable-subject-select {
+    appearance: none !important;
+    padding-right: 2px !important;
+    background-image: none !important;
+  }
+
+  .primary-timetable-table .primary-level-select {
+    appearance: none !important;
+    padding: 0 2px !important;
+    background-image: none !important;
+  }
+
+  .primary-timetable-table .timetable-cell-content.colored-cell {
+    grid-template-rows: minmax(0, 1fr) 14px;
+  }
+
+  .primary-timetable-table .timetable-cell-content.colored-cell .timetable-class-input {
+    position: absolute;
+    top: 0;
+    bottom: auto;
+    left: 0;
+    grid-row: auto;
+    align-self: auto;
+    width: 100%;
+    height: calc(100% - 14px);
+    min-height: 0;
+    max-height: calc(100% - 14px);
+    transform: none;
+  }
+
+  .primary-timetable-table .timetable-cell-content.colored-cell .room-control {
+    grid-row: 2;
+  }
+}
+.cahier-generate-pages-button {
+  position: fixed !important;
+  left: 8px !important;
+  right: auto !important;
+  bottom: 18px !important;
+  z-index: 2147483647 !important;
+  box-sizing: border-box !important;
+  width: 334px !important;
+  max-width: calc(100vw - 24px) !important;
+  height: 50px !important;
+  border: 1px solid #1d4ed8 !important;
+  border-bottom: 2px solid #1e3a8a !important;
+  border-radius: 10px !important;
+  padding: 7px 12px !important;
+  background: linear-gradient(180deg, #60a5fa 0%, #2563eb 52%, #1d4ed8 100%) !important;
+  color: #fff !important;
+  font: 900 21px Arial, sans-serif !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.38) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 0 #1e3a8a, 0 7px 13px rgba(0, 0, 0, 0.3) !important;
+  transform: translateY(-2px) !important;
+  cursor: pointer !important;
+  transition: transform 0.12s ease, box-shadow 0.12s ease !important;
+}
+
+.cahier-generate-pages-button:hover {
+  transform: translateY(0) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 #1e3a8a, 0 5px 10px rgba(0, 0, 0, 0.28) !important;
+}
+
+.cahier-generate-pages-button:active {
+  transform: translateY(3px) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 0 #1e3a8a, 0 2px 5px rgba(0, 0, 0, 0.24) !important;
+}
+
+@media print {
+  .cahier-generate-pages-button {
+    display: none !important;
+  }
+}
