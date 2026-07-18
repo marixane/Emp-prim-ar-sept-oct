@@ -236,7 +236,7 @@ const examListTableStyle = { width: '100%', borderCollapse: 'separate', borderSp
 const examListHeaderCellStyle = { padding: '12px 14px', border: 0, background: '#111827', color: 'white', fontSize: '13px', fontWeight: 900, textAlign: 'left', textTransform: 'uppercase' };
 const examListCellStyle = { padding: '14px', borderTop: '1px solid rgba(17,17,17,0.08)', borderBottom: '1px solid rgba(17,17,17,0.08)', background: 'white', color: '#111827', fontSize: '14px', fontWeight: 800, textAlign: 'left', lineHeight: 1.2 };
 const groupHomeworkHeaderStyle = { position: 'absolute', top: '30px', left: '-110px', right: 'auto', width: '80%', height: '42px', display: 'grid', gridTemplateColumns: '230px 1fr', alignItems: 'center', gap: '18px', borderRadius: '12px', background: 'var(--group-color)', color: '#111827', padding: '0 18px', boxSizing: 'border-box', boxShadow: '0 2px 6px rgba(17, 17, 17, 0.12)' };
-const groupHomeworkTitleStyle = { fontSize: '20px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.4px', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
+const groupHomeworkTitleStyle = { height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 8px', boxSizing: 'border-box', fontFamily: 'Tahoma, Arial, sans-serif', fontSize: '21px', lineHeight: 1, fontWeight: 900, textAlign: 'center', direction: 'rtl', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' };
 const groupCoverPageStyle = { position: 'relative', display: 'block', padding: 0, background: 'linear-gradient(180deg, var(--group-color), #ffffff 78%)', borderLeft: '14px solid var(--group-color)', overflow: 'hidden', textAlign: 'center' };
 const groupCoverBrandStyle = { position: 'absolute', top: '92px', left: '50%', zIndex: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', transform: 'translateX(-50%)', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' };
 const groupCoverBrandMainStyle = { position: 'relative', color: '#1565c0', fontSize: '42px', fontWeight: 1000, lineHeight: 0.95, letterSpacing: '-1.2px' };
@@ -950,7 +950,7 @@ export default function Tab({ primaryLevelRows: controlledPrimaryLevelRows, onPr
           : buildOneDayPages(entries);
         return {
           key: `level-${index}-${level}`,
-          title: getPrimaryHeaderLevelLabel(level),
+          title: level,
           color: CELL_COLORS[index % CELL_COLORS.length],
           pages,
           progress: createHomeworkProgress(pages)
