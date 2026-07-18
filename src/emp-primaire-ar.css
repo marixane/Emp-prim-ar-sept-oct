@@ -1699,6 +1699,11 @@ body.emp-primaire-ar
   .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page.cahier-two-days-compact-page
   > .homework-entry:not(.cahier-extra-holiday-entry)
   > .homework-content.cahier-sessions-content
+  > .homework-subject.cahier-session-list,
+body.emp-primaire-ar
+  .a4-page.emp-ar-translated-page.homework-page.cahier-two-entry-page.cahier-two-days-compact-page
+  > .homework-entry:not(.cahier-extra-holiday-entry)
+  > .homework-content.cahier-sessions-content
   > .homework-text.cahier-session-notes {
   display: grid !important;
   height: 435px !important;
