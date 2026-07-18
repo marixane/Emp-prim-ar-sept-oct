@@ -1750,6 +1750,9 @@ body.emp-primaire-ar
 /* Le niveau est déjà indiqué sur la couverture : pas de rail vertical ici. */
 body.emp-primaire-ar
   .a4-page.emp-ar-translated-page.homework-page.cahier-two-days-compact-page
-  .homework-group-label {
+  .homework-group-label,
+body.emp-primaire-ar
+  .a4-page.emp-ar-translated-page.homework-page.cahier-two-days-compact-page
+  .cahier-session-levels-rail {
   display: none !important;
 }

@@ -853,6 +853,14 @@ export default function Tab({ primaryLevelRows: controlledPrimaryLevelRows, onPr
   const generatedRows = generatedData?.rows ?? [];
   const generatedHours = generatedData?.hours ?? [];
   const generatedPrimarySectionLevels = generatedData?.primarySectionLevels ?? [];
+  const generatedPrimaryLevelRows = (generatedData?.primaryLevelRows ?? primaryLevelRows)
+    .map((level) => String(level || '').trim())
+    .filter(Boolean);
+  const getGeneratedSectionLevel = (sectionIndex, dayIndex) => (
+    generatedPrimarySectionLevels[sectionIndex]?.[dayIndex]
+      || generatedPrimaryLevelRows[sectionIndex % Math.max(generatedPrimaryLevelRows.length, 1)]
+      || ''
+  );
   const generatedSubjectSequenceByCell = new Map();
   const generatedSubjectOccurrenceCounts = new Map();
   generatedRows.forEach((row, dayIndex) => {
@@ -860,7 +868,7 @@ export default function Tab({ primaryLevelRows: controlledPrimaryLevelRows, onPr
       const cell = normalizeCell(row.cells[hour]);
       const subject = cell.text.trim();
       if (cell.hidden || !subject) return;
-      const level = generatedPrimarySectionLevels[getPrimaryTimeSection(hourIndex)]?.[dayIndex] || '';
+      const level = getGeneratedSectionLevel(getPrimaryTimeSection(hourIndex), dayIndex);
       const occurrenceKey = JSON.stringify([level, subject]);
       const nextOccurrence = (generatedSubjectOccurrenceCounts.get(occurrenceKey) || 0) + 1;
       generatedSubjectOccurrenceCounts.set(occurrenceKey, nextOccurrence);
@@ -891,7 +899,7 @@ export default function Tab({ primaryLevelRows: controlledPrimaryLevelRows, onPr
         list.push({
           hour: formatDisplayedClock(formatClockMinutes(startMinutes)),
           hourIndex,
-          level: generatedPrimarySectionLevels[sectionIndex]?.[dayIndex] || '',
+          level: getGeneratedSectionLevel(sectionIndex, dayIndex),
           className: formatSubjectSequence(subject, sequence),
           subjectName: subject,
           sequenceLabel: getSubjectSequenceLabel(subject, sequence),
