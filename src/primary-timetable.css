@@ -639,6 +639,46 @@
   transition: transform 0.12s ease, box-shadow 0.12s ease !important;
 }
 
+.cahier-class-grouping-control {
+  position: fixed;
+  left: 8px;
+  bottom: 132px;
+  z-index: 2147483647;
+  display: grid;
+  box-sizing: border-box;
+  width: 334px;
+  max-width: calc(100vw - 24px);
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid rgba(30, 64, 175, 0.28);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.2);
+  color: #172033;
+  font: 800 13px Tahoma, Arial, sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+.cahier-class-grouping-control select {
+  width: 100%;
+  height: 38px;
+  border: 1px solid #93a4ba;
+  border-radius: 8px;
+  padding: 0 10px;
+  background: #f8fbff;
+  color: #172033;
+  font: 800 15px Tahoma, Arial, sans-serif;
+  direction: rtl;
+  cursor: pointer;
+}
+
+body:not(.cahier-pdf-exporting):not(.cahier-print-exporting) .cahier-preview-zone .homework-page {
+  content-visibility: auto;
+  contain-intrinsic-size: 1123px;
+  contain: layout paint style;
+}
+
 .cahier-generate-pages-button:hover {
   transform: translateY(0) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 0 #1e3a8a, 0 5px 10px rgba(0, 0, 0, 0.28) !important;
@@ -650,7 +690,8 @@
 }
 
 @media print {
-  .cahier-generate-pages-button {
+  .cahier-generate-pages-button,
+  .cahier-class-grouping-control {
     display: none !important;
   }
 }

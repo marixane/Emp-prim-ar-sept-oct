@@ -15,6 +15,8 @@ const EXPORT_CSS = `
   html, body { margin: 0 !important; padding: 0 !important; background: white !important; overflow: visible !important; }
   .cahier-preview-zone { display: block !important; width: ${A4_WIDTH} !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; transform: none !important; zoom: 1 !important; }
   .a4-page, .cahier-page {
+    content-visibility: visible !important;
+    contain: none !important;
     display: block !important;
     position: relative !important;
     width: ${A4_WIDTH} !important;

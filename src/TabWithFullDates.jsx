@@ -175,6 +175,18 @@ const updateDisplayedDates = (root = document) => {
 
   fixEntries(root);
 
+  root.querySelectorAll?.('.homework-page').forEach((page) => {
+    const holidayEntry = page.querySelector(
+      '.homework-entry.cahier-extra-holiday-entry:not(.cahier-dom-hidden)',
+    );
+    page.classList.toggle('cahier-holiday-only-page', Boolean(holidayEntry));
+    if (holidayEntry) {
+      page.querySelectorAll('.homework-entry').forEach((entry) => {
+        if (entry !== holidayEntry) entry.classList.add('cahier-dom-hidden');
+      });
+    }
+  });
+
   root.querySelectorAll?.('.cahier-exams-list tbody tr').forEach((row) => {
     Array.from(row.cells).slice(0, 2).forEach((cell) => {
       const nextText = addSchoolYearToDates(cell.textContent);
@@ -209,6 +221,21 @@ function TabWithFullDates(props) {
 
       .cahier-dom-hidden {
         display: none !important;
+      }
+
+      .homework-page.cahier-holiday-only-page > .homework-entry.cahier-extra-holiday-entry {
+        height: 1000px !important;
+        min-height: 1000px !important;
+        max-height: 1000px !important;
+        grid-template-rows: 65px 925px !important;
+      }
+
+      .homework-page.cahier-holiday-only-page
+        > .homework-entry.cahier-extra-holiday-entry
+        > .homework-content {
+        height: 925px !important;
+        min-height: 925px !important;
+        max-height: 925px !important;
       }
     `}</style>
     <Tab {...props} />
