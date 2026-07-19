@@ -651,6 +651,12 @@ export default function Tab({ primaryLevelRows: controlledPrimaryLevelRows, onPr
     });
   };
 
+  useEffect(() => {
+    const generateForPdf = () => generatePages();
+    window.addEventListener('cahier-request-generate-pages', generateForPdf);
+    return () => window.removeEventListener('cahier-request-generate-pages', generateForPdf);
+  });
+
   const invalidateGeneratedPages = () => setGeneratedData(null);
 
   const validateOnEnter = (event) => {
@@ -1282,6 +1288,5 @@ export default function Tab({ primaryLevelRows: controlledPrimaryLevelRows, onPr
         <option value="separated-two-days">أقسام منفصلة - يومان في الصفحة</option>
       </select>
     </label>
-    <button type="button" className="cahier-generate-pages-button no-print" onClick={generatePages}>توليد الصفحات</button>
   </main>;
 }
