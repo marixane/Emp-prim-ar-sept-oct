@@ -1,0 +1,9 @@
+/* واجهة الويب تبدأ مباشرة بجدول استعمال الزمن.
+   تبقى صفحة الغلاف في المستند حتى تظهر في ملف PDF. */
+body.cahier-tab-active .cahier-preview-zone > .cover-page-only {
+  position: fixed !important;
+  top: 0 !important;
+  left: -100000px !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+}
