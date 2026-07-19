@@ -7,3 +7,16 @@ body.cahier-tab-active .cahier-preview-zone > .cover-page-only {
   margin: 0 !important;
   pointer-events: none !important;
 }
+
+/* لا تظهر في الموقع إلا صفحة جدول الحصص. تبقى الصفحات المحسوبة داخل
+   المستند من أجل التصدير فقط، بينما يعرضها نمط الطباعة داخل ملف PDF. */
+@media screen {
+  body.cahier-tab-active .cahier-preview-zone > .a4-page:not(.primary-timetable-page):not(.cover-page-only),
+  body.cahier-tab-active .cahier-preview-zone > .cahier-page:not(.primary-timetable-page):not(.cover-page-only) {
+    position: fixed !important;
+    top: 0 !important;
+    left: -100000px !important;
+    margin: 0 !important;
+    pointer-events: none !important;
+  }
+}
