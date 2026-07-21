@@ -1277,16 +1277,24 @@ export default function Tab({ primaryLevelRows: controlledPrimaryLevelRows, onPr
       </div>
       <MoroccoHolidaysPage />
     </section>
-    <label className="cahier-class-grouping-control no-print" dir="rtl">
-      <span>تنظيم الأقسام</span>
-      <select value={classGroupingMode} onChange={(event) => {
-        setClassGroupingMode(event.target.value);
-        invalidateGeneratedPages();
-      }}>
-        <option value="grouped">قسمان مجتمعان</option>
-        <option value="separated">أقسام منفصلة</option>
-        <option value="separated-two-days">أقسام منفصلة - يومان في الصفحة</option>
-      </select>
-    </label>
+    <div className="cahier-class-grouping-control no-print" dir="rtl">
+      <button
+        type="button"
+        className="cahier-layout-cycle-button"
+        onClick={() => {
+          setClassGroupingMode(classGroupingMode === 'grouped'
+            ? 'separated'
+            : classGroupingMode === 'separated'
+              ? 'separated-two-days'
+              : 'grouped');
+          invalidateGeneratedPages();
+        }}
+        aria-label={`التنظيم الحالي: ${classGroupingMode === 'grouped' ? 'قسمان مجتمعان' : classGroupingMode === 'separated' ? 'أقسام منفصلة' : 'أقسام منفصلة يومان في الصفحة'}. اضغط للتغيير.`}
+        title="اضغط للانتقال إلى التنظيم التالي"
+      >
+        <span className="cahier-layout-cycle-title">تنظيم الأقسام</span>
+        <span className="cahier-layout-cycle-value">▼ {classGroupingMode === 'grouped' ? 'قسمان مجتمعان' : classGroupingMode === 'separated' ? 'أقسام منفصلة' : 'أقسام منفصلة - يومان في الصفحة'}</span>
+      </button>
+    </div>
   </main>;
 }
