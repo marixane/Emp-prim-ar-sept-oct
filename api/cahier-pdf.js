@@ -342,6 +342,18 @@ export default async function handler(req, res) {
         table.classList.remove('compact-pdf-hours');
       });
 
+      // Certaines cartes de séances portent une police inline (Arial/Comic Sans)
+      // avec `!important`. Cette déclaration gagne sur la police du body et
+      // remplace alors les glyphes arabes par des cases vides dans Chromium.
+      // Remplacer explicitement toute police inline garantit la même police
+      // arabe pour les jours, niveaux, classes et matières de chaque page.
+      if (document.body.classList.contains('emp-primaire-ar')) {
+        const arabicFont = '"Noto Sans Arabic", Arial, sans-serif';
+        document.querySelectorAll('*').forEach((element) => {
+          element.style.setProperty('font-family', arabicFont, 'important');
+        });
+      }
+
       if (document.fonts?.ready) await document.fonts.ready.catch(() => {});
       window.scrollTo(0, 0);
     });
