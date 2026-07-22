@@ -1,4 +1,14 @@
 /* Page du tableau de service : décor éducatif léger et commandes intégrées. */
+.cahier-class-grouping-control {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.cahier-timetable-toolbar-option.cahier-class-grouping-control {
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
 .cahier-service-page {
   position: relative !important;
   background-color: #f8fbff !important;
