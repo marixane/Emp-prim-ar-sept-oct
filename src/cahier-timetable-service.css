@@ -129,6 +129,39 @@
 .cahier-layout-cycle-button:active { transform:translateY(1px) !important; }
 
 @media (max-width:1200px) {
+  /* Affiche immédiatement le contrôle déjà compact pendant que le tableau
+     termine son rendu, puis le service de barre le déplace sans changement
+     de taille perceptible. */
+  .cahier-class-grouping-control:not(.cahier-timetable-toolbar-option),
+  .cahier-service-page > .cahier-class-grouping-control:not(.cahier-timetable-toolbar-option) {
+    position: fixed !important;
+    inset: auto 24px 12px !important;
+    z-index: 2147483647 !important;
+    display: block !important;
+    box-sizing: border-box !important;
+    width: auto !important;
+    max-width: none !important;
+    min-height: 34px !important;
+    padding: 3px 5px !important;
+    border-radius: 11px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  .cahier-class-grouping-control:not(.cahier-timetable-toolbar-option) .cahier-layout-cycle-button {
+    display: block !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 26px !important;
+    padding: 2px 5px !important;
+    border: 1px solid #65a5dc !important;
+    border-bottom: 3px solid #3478b5 !important;
+    border-radius: 9px !important;
+    background: linear-gradient(180deg,#f5fbff 0%,#d6edff 55%,#b7dcf7 100%) !important;
+    color: #173a5e !important;
+    font: 800 10px Arial,sans-serif !important;
+  }
   .cahier-timetable-toolbar {
     right: 24px !important;
     bottom: 12px !important;
