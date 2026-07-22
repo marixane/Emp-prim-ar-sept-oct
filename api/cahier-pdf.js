@@ -19,6 +19,7 @@ const A4_WIDTH = 794;
 const A4_HEIGHT = 1123;
 const A4_WIDTH_CSS = '210mm';
 const A4_HEIGHT_CSS = '297mm';
+const ARABIC_FONT_URL = 'https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;700;900&display=swap';
 
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 8;
@@ -166,6 +167,7 @@ export default async function handler(req, res) {
   <base href="${safeBase}/">
   <meta charset="utf-8">
   <style>
+    @import url("${ARABIC_FONT_URL}");
     @page { size: ${A4_WIDTH_CSS} ${A4_HEIGHT_CSS}; margin: 0; }
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
     html, body {
@@ -176,6 +178,13 @@ export default async function handler(req, res) {
       overflow: visible !important;
     }
     body { min-height: ${A4_HEIGHT_CSS} !important; }
+    body.emp-primaire-ar,
+    body.emp-primaire-ar .primary-timetable-page,
+    body.emp-primaire-ar .primary-timetable-page *,
+    body.arabic-mode,
+    body.arabic-mode [dir="rtl"] {
+      font-family: "Noto Sans Arabic", Arial, sans-serif !important;
+    }
     .cahier-pdf-export-button, .app-tabs, .tab-button, button,
     #cahier-main-cover-page, .cahier-main-cover-page, [data-force-first-page="true"] { display: none !important; }
     body.emp-primaire-ar .primary-timetable-page .no-print,
