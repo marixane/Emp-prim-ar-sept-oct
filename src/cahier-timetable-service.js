@@ -39,10 +39,13 @@ const syncToolbar = () => {
   page.classList.add('cahier-service-ready');
 };
 
-let timer = 0;
 const schedule = () => {
-  clearTimeout(timer);
-  timer = setTimeout(syncToolbar, 0);
+  /* Déplacer le contrôle dans la barre immédiatement après son insertion.
+     Le délai précédent laissait voir un premier bouton autonome, puis un
+     second rendu dans la barre, ce qui provoquait l'effet « grand puis réduit »
+     sur téléphone. La synchronisation reste idempotente et l'observateur
+     rappellera cette fonction si le tableau est généré plus tard. */
+  syncToolbar();
 };
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', schedule, { once: true });
 else schedule();

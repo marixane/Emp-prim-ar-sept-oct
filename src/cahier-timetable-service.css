@@ -196,5 +196,15 @@
   .cahier-timetable-toolbar-option .cahier-layout-cycle-button { height: 40px !important; padding: 3px 5px !important; font-size: 10px !important; }
   .cahier-layout-cycle-title { font-size:9px !important; }
   .cahier-layout-cycle-value { font-size:10px !important; }
+
+  /* Tant que le service n'a pas encore déplacé le contrôle dans la barre,
+     ne rien afficher : cela évite le flash du bouton autonome au chargement. */
+  .cahier-class-grouping-control:not(.cahier-timetable-toolbar-option),
+  .cahier-service-page > .cahier-class-grouping-control:not(.cahier-timetable-toolbar-option) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
 }
 @media print { .cahier-timetable-toolbar { display:none !important; } }
