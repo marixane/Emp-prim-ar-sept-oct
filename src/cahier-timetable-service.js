@@ -1,6 +1,7 @@
 const CLASS_NAME = 'cahier-timetable-toolbar';
 
-const findPage = () => document.querySelector('.timetable-table, .primary-timetable-table')?.closest('.a4-page, .cahier-page');
+const findPage = () => document.querySelector('.timetable-table, .primary-timetable-table')?.closest('.a4-page, .cahier-page')
+  || document.querySelector('.a4-page.primary-timetable-page, .cahier-page.primary-timetable-page');
 
 const resetButton = (button, role) => {
   if (!button) return;
@@ -15,7 +16,8 @@ const syncToolbar = () => {
   const page = findPage();
   const preview = document.getElementById('cahier-pdf-preview-stable');
   const download = document.getElementById('cahier-pdf-button-stable');
-  if (!page || !preview || !download) return;
+  const option = document.querySelector('.cahier-lines-per-page-control, .cahier-class-grouping-control');
+  if (!page || !option) return;
   page.classList.add('cahier-service-page');
 
   let toolbar = page.querySelector(`:scope > .${CLASS_NAME}`);
@@ -28,11 +30,8 @@ const syncToolbar = () => {
 
   resetButton(preview, 'preview');
   resetButton(download, 'download');
-  const option = document.querySelector('.cahier-lines-per-page-control, .cahier-class-grouping-control');
-  const desired = option ? [preview, option, download] : [preview, download];
-  if (option) {
-    option.classList.add('cahier-timetable-toolbar-option', 'no-print');
-  }
+  const desired = [preview, option, download].filter(Boolean);
+  option.classList.add('cahier-timetable-toolbar-option', 'no-print');
   const current = Array.from(toolbar.children);
   const alreadyOrdered = current.length === desired.length && desired.every((node, index) => current[index] === node);
   if (!alreadyOrdered) toolbar.append(...desired);
