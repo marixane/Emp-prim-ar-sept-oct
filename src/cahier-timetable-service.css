@@ -19,6 +19,16 @@
   visibility: visible !important;
   opacity: 1 !important;
 }
+.cahier-service-page > .cahier-class-grouping-control:not(.cahier-timetable-toolbar-option) {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.cahier-service-page > .cahier-timetable-toolbar > .cahier-class-grouping-control {
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
 .cahier-service-page > .cahier-header > h2::after { content: 'جدول الحصص :' !important; }
 
 .cahier-timetable-toolbar {
