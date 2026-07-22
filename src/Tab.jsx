@@ -1281,7 +1281,7 @@ export default function Tab({ primaryLevelRows: controlledPrimaryLevelRows, onPr
       <button
         type="button"
         className="cahier-layout-cycle-button"
-        style={{ width: '100%', height: '26px', boxSizing: 'border-box' }}
+        style={{ width: '100%', height: '40px', boxSizing: 'border-box' }}
         onClick={() => {
           setClassGroupingMode(classGroupingMode === 'grouped'
             ? 'separated'
