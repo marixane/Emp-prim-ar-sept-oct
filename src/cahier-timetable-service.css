@@ -169,8 +169,8 @@
     bottom: 12px !important;
     left: 24px !important;
     gap: 8px !important;
-    min-height: 42px !important;
-    padding: 4px 6px !important;
+    min-height: 48px !important;
+    padding: 1px 4px !important;
     border-radius: 11px !important;
   }
   .cahier-timetable-toolbar.has-option { grid-template-columns: minmax(0,1fr) minmax(0,1.2fr) minmax(0,1fr) !important; }
@@ -191,8 +191,8 @@
     min-width: 250px !important;
     max-width: 250px !important;
     justify-self: center !important;
-    min-height: 34px !important;
-    padding: 3px 5px !important;
+    min-height: 42px !important;
+    padding: 0 4px !important;
     border-radius: 9px !important;
     font-size: 0 !important;
   }
