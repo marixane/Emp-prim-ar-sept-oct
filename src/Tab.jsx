@@ -1277,10 +1277,11 @@ export default function Tab({ primaryLevelRows: controlledPrimaryLevelRows, onPr
       </div>
       <MoroccoHolidaysPage />
     </section>
-    <div className="cahier-class-grouping-control no-print" dir="rtl">
+    <div className="cahier-class-grouping-control no-print" dir="rtl" style={{ width: '300px', maxWidth: 'calc(100vw - 48px)', position: 'fixed', left: '24px', right: 'auto', bottom: '12px', padding: '3px 5px', boxSizing: 'border-box' }}>
       <button
         type="button"
         className="cahier-layout-cycle-button"
+        style={{ width: '100%', height: '26px', boxSizing: 'border-box' }}
         onClick={() => {
           setClassGroupingMode(classGroupingMode === 'grouped'
             ? 'separated'
